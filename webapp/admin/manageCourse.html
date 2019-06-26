@@ -1,0 +1,319 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>课程管理</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="renderer" content="webkit">
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="icon" href="../assets/i/favicon.ico">
+<link rel="stylesheet" href="../assets/css/amazeui.min.css" />
+<link rel="stylesheet" href="../assets/css/admin.css">
+<link rel="stylesheet" href="../assets/css/app.css">
+<link rel="stylesheet" href="../assets/css/ace.min.css">
+<style type="text/css">
+	.courseInfo{
+		width:40%;
+		height:34%;
+		position:fixed;
+		left:30%;
+		top:30%;
+		background-color: DarkCyan;
+		text-align: center;
+		padding-top: 3%;
+		display: none;
+	}
+	.addCourseInfo{
+		width:40%;
+		height:34%;
+		position:fixed;
+		left:30%;
+		top:30%;
+		background-color: DarkCyan;
+		text-align: center;
+		padding-top: 3%;
+		display: none;
+	}
+</style>
+	</head>
+
+	<body data-type="index" style="background-color: #E4E6E9;">
+
+
+		<header class="am-topbar am-topbar-inverse admin-header">
+			<div class="am-topbar-brand am-sans-serif">
+				<img  src="../assets/img/logo.png"  width="70px" height="71px"/>
+				哈尔滨信息工程学院考勤系统管理端
+			</div>
+
+
+			<button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span
+				 class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+
+			<div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+
+				<ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">
+							
+					<li class="am-dropdown" data-am-dropdown data-am-dropdown-toggle>
+						<a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
+							<span class="am-icon-edit"></span> 学院管理 
+						</a>
+						<ul class="am-dropdown-content tpl-dropdown-content">
+							<li>
+								<a href="manageClass.html" class="tpl-dropdown-content-progress">
+									<span class="task">
+										<i class="am-icon-puzzle-piece"> </i>
+										<span class="desc">班级管理</span>
+									</span>
+								</a>
+							</li>
+							<li>
+								<a href="manageSpecialty.html" class="tpl-dropdown-content-progress">
+									<span class="task">
+										<i class="am-icon-puzzle-piece"></i>
+										<span class="desc">专业管理</span>
+									</span>
+								</a>
+							</li>
+							<li>
+								<a href="manageFaculty.html" class="tpl-dropdown-content-progress">
+									<span class="task">
+										<i class="am-icon-puzzle-piece"></i>
+										<span class="desc">学院管理</span>
+									</span>
+								</a>
+							</li>
+						</ul>
+					</li>
+					
+					<li class="am-dropdown" data-am-dropdown data-am-dropdown-toggle>
+						<a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
+							<span class="am-icon-edit"></span> 课程管理 
+						</a>
+						<ul class="am-dropdown-content tpl-dropdown-content">
+							<li>
+								<a href="manageSyllabus.html" class="tpl-dropdown-content-progress">
+									<span class="task">
+										<i class="am-icon-puzzle-piece"></i>
+										<span class="desc">课程表管理</span>
+									</span>
+								</a>
+							</li>
+
+						</ul>
+					</li>
+					<li class="am-dropdown" data-am-dropdown data-am-dropdown-toggle>
+						<a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
+							<span class="am-icon-edit"></span> 教师管理 
+						</a>
+						<ul class="am-dropdown-content tpl-dropdown-content">
+							<li>
+								<a href="manageTeacher.html" class="tpl-dropdown-content-progress">
+									<span class="task">
+										<i class="am-icon-puzzle-piece"></i>
+										<span class="desc">教师信息管理</span>
+									</span>
+								</a>
+							</li>
+
+						</ul>
+					</li>
+					<li class="am-dropdown">
+						<a class="am-dropdown-toggle tpl-header-list-link" href="adminCancellation">
+							<span class="am-icon-power-off"></span> 退出 
+						</a>
+					</li>					
+			</ul>
+			</div>
+		</header>
+		<div class="tpl-page-container tpl-page-header-fixed">
+			<div id="page-content" class="page-content">
+			<div class="visible-lg-block">
+				<div class="tpl-portlet-components">
+					
+					<div class="portlet-title center">
+							<input  class="selectCourseName center" type="text" placeholder="请输入课程名">
+							<button class="am-btn-secondary am-btn-default" onclick="select()" type="button">查询</button>
+							<button class="am-btn-secondary am-btn-default" onclick="insert()" type="button">添加</button>
+					
+					</div>
+					<div class="tpl-block">
+						<div class="am-g">
+							<div class="am-u-sm-12">
+						
+								<table  
+									class="am-table am-table-striped am-table-hover table-main">
+									<thead>
+										<tr>
+											<th class=" center" >课程编号</th>
+											<th class=" center" >课程名称</th>
+											<th class=" center" >操作</th>
+										</tr>
+									</thead>
+								<tbody align="center">
+							
+								</tbody>
+								</table>
+							</div>
+						 </div>
+					</div>
+				</div>
+			</div>
+		 </div>
+		</div>
+		<div class="courseInfo">
+			<div style="width: 70%;margin:  0 auto;">
+			<form class="am-form am-form-horizontal">
+			  <div class="am-form-group">
+			    <label for="courseId" class="am-u-sm-5 am-form-label">课程编号</label>
+			    <div class="am-u-sm-7">
+			      <input type="text" disabled="disabled"  id="courseId">
+			    </div>
+			  </div>
+			
+			  <div class="am-form-group">
+			    <label for="courseName" class="am-u-sm-5 am-form-label">课程名</label>
+			    <div class="am-u-sm-7">
+			      <input id="courseName" type="text">
+			    </div>
+			  </div>
+			</form>		
+			      <button type="button" onclick="updateCourse()" class="am-btn am-btn-success updateClass">修改</button>
+			      <button type="button" onclick="javascript:$('.courseInfo').hide()" class="am-btn am-btn-danger">退出</button>
+		</div>
+		</div>
+			<div class="addCourseInfo">
+			<div style="width: 70%;margin:  0 auto;">
+			<form class="am-form am-form-horizontal">
+			  <div class="am-form-group">
+			    <label for="CourseId" class="am-u-sm-5 am-form-label">课程编号</label>
+			    <div class="am-u-sm-7">
+			      <input type="text"  id="CourseId" placeholder="请输入课程编号">
+			    </div>
+			  </div>
+			
+			  <div class="am-form-group">
+			    <label for="CourseName" class="am-u-sm-5 am-form-label">课程名</label>
+			    <div class="am-u-sm-7">
+			      <input id="CourseName" type="text" placeholder="请输入课程名">
+			    </div>
+			  </div>
+			</form>		
+			      <button type="button" onclick="insertCourse()" class="am-btn am-btn-success updateClass">添加</button>
+			      <button type="button" onclick="javascript:$('.addCourseInfo').hide()" class="am-btn am-btn-danger">退出</button>
+		</div>
+		</div>
+		<script src="../assets/js/jquery3.3.1.js"></script>
+		<script src="../assets/js/amazeui.js"></script>	
+		<script type="text/javascript">
+		var course = null;
+		 $(function(){
+			 	select();
+		 });
+		 function select(){
+			 $.ajax({
+			     async : true ,
+			     type : "post",//传值方式
+			     url : 'queryCourse',//请求的地址
+			     data:{
+			    	 'courseName':$('.selectCourseName').val()
+			    	 },
+			     //回调函数 返回的值
+			     success : function(data) {
+			    	 $('.selectCourseName').val("");
+			    	 course = data;
+			    	 showCourse(course);
+			     }
+			     }); 
+		 } 
+		 function showCourse(data){ 
+	  		 var tbody = $('tbody');
+	  		 tbody.text("");
+		    	for(var i=0,j=data.length;i<j;i++){    		
+		    		tbody.append('<tr>'
+		    		+'<td>'+data[i].courseId+'</td>'
+		    		+'<td>'+data[i].courseName+'</td>'
+		    		+'<td> <input class="am-btn-success am-btn-default" onclick="showUpdate('+i+')" type="button" value="修改"> '
+		    		+'<input class="am-btn-danger am-btn-default" onclick="deleteCourse(\''+data[i].courseId+'\')" type="button" value="删除"></td> </tr>');
+		    	}   	
+		    	}
+		 function showUpdate(index){
+			 $('.addCourseInfo').hide();
+			 $('#courseId').val(course[index].courseId);
+			 $('#courseName').val(course[index].courseName);
+			 $('.courseInfo').show();
+		 }
+		 function updateCourse(){
+    		 $('.courseInfo').hide();
+			 $.ajax({
+				 async : true ,
+			     type : "post",//传值方式
+			     url : 'updateCourse',//请求的地址
+			     data : {
+			    	 "courseName":$('#courseName').val(),
+			    	 "courseId":$('#courseId').val()
+			     },
+			     //回调函数 返回的值
+			     success : function(data) {
+			    	 if(data == 1){
+			    		 alert("修改成功");
+			    	 }else{
+			    		 alert("修改失败");
+			    	 }
+			    		
+			    	 select();
+			     }
+			 });
+		 }
+		 function deleteCourse(){
+			 if(confirm('确认删除该学院吗？')){
+			 $.ajax({
+				 async:true,
+				 type:'post',
+				 url:'deleteCourse',
+				 data:{'course':arguments[0]}, 
+				 success: function (data){
+					 if(data == 1){
+						 alert('删除成功');
+					 }else{
+						 alert('删除失败');
+					 }
+					 select();
+				 } 
+				 });
+			 }
+		 }
+		 function insert(){
+			 $('.courseInfo').hide();
+			 $('#CourseId').val("");
+			 $('#CourseName').val("");
+			 $('.addCourseInfo').show();
+		 }
+		 function insertCourse(){
+			 var Course = new Object();
+			 var temp = new Array();
+			 Course.courseId = $('#CourseId').val();
+			 Course.courseName = $('#CourseName').val();
+			 temp.push(Course);
+			 $.ajax({
+				 async:true,
+			 	 type:'post',
+			 	 url:'insertCourse',
+			 	 data:{
+			 		 'course':JSON.stringify(temp)
+			 	 },
+			 	 success: function (data){
+			 		 if(data == 1){
+			 			 alert('添加成功');
+			 		 }
+			 		 $('.addCourseInfo').hide();
+			 		 select();
+			 	 }
+			 });
+		 }
+		</script>	
+	</body>
+
+</html>

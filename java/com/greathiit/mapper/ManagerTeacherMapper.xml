@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.greathiit.mapper.ManagerTeacherMapper">
+<cache eviction="FIFO" flushInterval="60000" size="512" readOnly="true" />
+    <!-- 获取待审批的教师请假请求 -->
+    <select id="getApprovalTeacherLeave" parameterType="java.util.List" resultType="teacherLeaveInfo">
+        select * from tb_teacher_leave l
+        where  teacher_leave_num in
+	        (
+		        <foreach collection="list" item="leaveNum" index="index" separator="," close="">
+		        	#{leaveNum}
+		        </foreach>
+	        )
+	    order by teacher_leave_num
+    </select>
+ 	<select id="queryTeacherStatistics" parameterType="java.util.Map" resultType="teacherSituationAnalysis">
+    select teacher_num,teacher_name,faculty_name,specialty_name,old_day leave_time,COUNT(teacher_num) leave_num,leave_type,leave_reason from tb_teacher_leave ,tb_specialty, tb_faculty 
+    <where>
+    	<if test="true">
+    	 faculty_id = teacher_faculty and specialty_id = teacher_specialty and  LEFT(old_day,${time}) = #{startTime}
+    	</if>
+    	<if test="facultyName != null and facultyName != ''">
+    	 and teacher_faculty = #{facultyName}
+    	</if>
+    	<if test="teacherNum != null and teacherNum != ''">
+    	 and teacher_num = #{teacherNum}
+    	</if>
+    </where>
+	GROUP BY faculty_name,old_day
+	ORDER BY faculty_name,specialty_name,teacher_num
+    </select>
+    <!-- 审批教师请假请求 -->
+    <update id="setApprovalTeacherLeave" parameterType="java.util.Map">
+        update tb_teacher_leave set 
+        	<if test="one != null">
+        		is_one = #{one},one_time = #{oneTime}
+        	</if>
+        	<if test="one != null and two != null">
+        		,
+        	</if>
+        	<if test="two != null">
+        		is_two = #{two},two_time = #{twoTime}
+        	</if>
+             where teacher_leave_num =#{teacherLeaveNum}    
+    </update>
+      <select id="getOneApproval" resultType="message">
+    	select teacher_name content,leave_apply_time applyTime,teacher_leave_num leave_num,
+		CASE
+			when is_one = 0  then specialty_teacher_num
+			when is_one = 1 and is_two = 0 then (select teacher_num from tb_teacher where teacher_post = '000')
+		END
+ 	recipient 
+    	FROM tb_teacher_leave l,tb_specialty  where specialty_id = teacher_specialty and is_two = 0
+    </select>
+    <select id="getFaculty" resultType="faculty">
+    	select faculty_id, faculty_name from  tb_faculty
+    </select>
+    <select id="getTeacher" parameterType="string" resultType="teacher">
+    	select * from tb_teacher WHERE teacher_faculty = #{faculty}
+    </select>
+    <select id="getDean" resultType="string">
+    	select teacher_num from tb_teacher where teacher_post = '000'
+    </select>
+
+</mapper>

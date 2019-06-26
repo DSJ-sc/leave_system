@@ -1,0 +1,263 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>审批教师调课请求</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="Cache-Control" content="no-siteapp" />
+		<link rel="icon" href="../assets/i/favicon.ico">
+		<meta name="apple-mobile-web-app-title" content="Amaze UI" />
+		<link rel="stylesheet" href="../assets/css/amazeui.min.css" />
+		<link rel="stylesheet" href="../assets/css/admin.css">
+		<link rel="stylesheet" href="../assets/css/app.css">
+		<link rel="stylesheet" href="../assets/css/ace.min.css">
+		<link rel="stylesheet" href="../assets/css/bootstrap.css">
+		<style type="text/css">
+        .am-u-sm-10{
+            padding-right: 10%;
+        }
+		input{
+			text-align: center;
+		}
+		</style>
+	</head>
+
+<body  data-type="index" style="background-color: #E4E6E9;">
+<header class="am-topbar am-topbar-inverse admin-header">
+			<div class="am-topbar-brand am-sans-serif">
+				<img src="../assets/img/logo.png" width="70px" height="71px" />
+				哈尔滨信息工程学院
+			</div>
+			<button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span
+				 class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+
+			<div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+
+				<ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">
+					<li class="am-dropdown" data-am-dropdown data-am-dropdown-toggle>
+						<a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
+							<span class="am-icon-user"></span> 点名 
+						</a>
+						<ul class="am-dropdown-content tpl-dropdown-content">
+							 <li>
+                                <a href="teacherGetStudent.html" class="tpl-dropdown-content-progress">
+                                    <span class="task">
+                                        <i class="am-icon-users"> </i>
+                                        <span class="desc">查看请假学生</span>
+                                    </span>
+                                </a>
+                            </li>
+						</ul>
+					</li>
+					<li class="am-dropdown" data-am-dropdown="" data-am-dropdown-toggle="">
+						<a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
+							<span class="am-icon-edit"></span> 调课 <span id="sunnum" class="am-badge tpl-badge-success am-round"></span>
+						</a>
+						<ul class="am-dropdown-content tpl-dropdown-content">
+							<li>
+								<a href="teacherAddLeave.html" class="tpl-dropdown-content-progress">
+									<span class="task">
+										<i class="am-icon-plus-circle"> </i>
+										<span class="desc">添加调课请求</span>
+									</span>
+								</a>
+							</li>
+							<li>
+								<a href="javascript:;" class="tpl-dropdown-content-progress">
+									<span class="task">
+										<i class="am-icon-search-plus"></i>
+										<span class="desc">查看调课请求</span>
+										<span id="cheaknum" class="am-badge tpl-badge-warning am-round" style="margin-left: 80px;"></span>
+									</span>
+								</a>
+							</li>
+						</ul>
+					</li>
+						<li class="am-dropdown" data-am-dropdown data-am-dropdown-toggle>
+						<a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
+							<span class="am-icon-bell-o"></span> 消息 <span class="am-badge tpl-badge-success am-round newsSum"></span>
+						</a>
+						<ul class="am-dropdown-content tpl-dropdown-content remind" style="padding: 0;text-align: center;">
+							<li class="tpl-dropdown-content-external" style="padding: 4px 4px 4px 4px">
+								
+								 <div onclick="location='approvalStudent.html'" style="cursor:pointer;background-color:#E4E6E9;color: black;">
+								 <b>您有 <span class="tpl-color-success studentLeaveSum">0</span> 条学生请假请求待处理</b>
+								
+								 </div>
+								<div style="background-color: #F5F5F5;">
+								<ul id="studentLeaveInfo" style="margin: 0; font-size:smaller; color: black;">
+							
+								</ul>
+								</div>
+							</li>
+							<li class="tpl-dropdown-content-external" style="padding: 0px 4px 4px 4px">
+								
+								 <div onclick="location='approvalTeacher.html'" style="cursor:pointer;background-color:#E4E6E9;color: black;">
+								 <b>您有 <span class="tpl-color-success teacherLeaveSum">0</span> 条教师调课请求待处理</b>
+								
+								 </div>
+								<div style="background-color: #F5F5F5;">
+								<ul id="teacherLeaveInfo" style="margin: 0; font-size:smaller; color: black;">
+									
+								</ul>
+								</div>
+							</li>			
+						</ul>
+					</li>
+					<li class="am-dropdown" data-am-dropdown="" data-am-dropdown-toggle="">
+						<a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
+							<span class="am-icon-pie-chart"></span> 请假信息统计 
+						</a>
+						<ul class="am-dropdown-content tpl-dropdown-content">
+							<li class="tpl-dropdown-list-bdbc"><a href="studentLeaveStatisticsInfo.html" class="tpl-dropdown-list-fl"><span class="am-icon-area-chart"></span>
+									查看本班级的请假统计信息</a>
+							</li>
+							<li class="tpl-dropdown-list-bdbc"><a href="othersLeaveStatisticsInfo.html" class="tpl-dropdown-list-fl"><span class="am-icon-area-chart"></span>
+									查看本专业的请假统计信息</a>
+							</li>
+							<li class="tpl-dropdown-list-bdbc"><a href="teacherLeaveStatisticsInfo.html" class="tpl-dropdown-list-fl"><span class="am-icon-area-chart"></span>
+									查看教师调课统计信息</a>
+							</li>
+						</ul>
+					</li>
+					<li class="am-dropdown" data-am-dropdown data-am-dropdown-toggle>
+						<a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
+							<span class="am-icon-user-secret"> </span>
+						</a>
+						<ul class="am-dropdown-content">
+							<li><a class="tpl-dropdown-content-progress" href="../teacher/cancellation"><span class="am-icon-power-off"></span> 退出</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</header>
+	<div class="tpl-page-container tpl-page-header-fixed">
+		<div id="page-content" class="page-content">
+			<div class="tpl-portlet-components">
+				<div class="portlet-title" style="margin: 0;">
+					<div class="caption font-green bold">
+						<span class="am-icon-code"></span>调课信息
+					</div>
+				</div>
+				<div class="tpl-block">
+					<div class="am-g">
+						  
+                     <div class="am-u-lg">
+                                      
+                            <div class="am-form tpl-form-line-form" >
+                                <div class="am-form-group" style="margin: 0 auto;">
+                                 <label  class="am-u-sm-2 am-form-label"> </label>
+                                 <div class="am-u-sm-10">
+                                    <div  align="center">
+                                        <p style="display: none;" class=" am-icon-warning am-btn-warning">待审核</p>
+                                        <p style="display: none;" class=" am-icon-check  am-btn-success">通过</p>
+                                        <p style="display: none;" class=" am-icon-remove am-btn-danger ">未通过</p>
+                                    </div> 
+                                    </div> 
+                                </div>
+                                <div class="am-form-group one" >
+                                    <label  class="am-u-sm-2 am-form-label">授课班级 </label>
+                                    <div class="am-u-sm-10">
+                                        <input type="text"  onfocus=this.blur() id="className">
+                                    </div>
+                                </div>
+                                   
+                                <div class="am-form-group ">
+                                    <label  class="am-u-sm-2 am-form-label">课程名称</label>
+                                    <div class="am-u-sm-10">
+                                        <input type="text"  onfocus=this.blur()  id="courseName" >
+                                    </div>
+                                </div>
+                                <div class="am-form-group ">
+                                    <label  class="am-u-sm-2 am-form-label">授课教师 </label>
+                                    <div class="am-u-sm-10">
+                                        <input type="text"  onfocus=this.blur()  id="teachTeacher" >
+                                    </div>
+                                </div>
+                              
+                               
+                            
+                          
+                              
+                                    <div class="am-form-group">
+                                    <label   class="am-u-sm-2 am-form-label">调课要求 </label>
+                                    <div class="am-u-sm-10">
+                                           <textarea disabled="disabled" style="text-align: center;"   id="requirement"  rows="4"></textarea>
+                                    </div>
+                                    </div>
+                                    <div class="am-form-group ">
+                                        <label for="leaveType" class="am-u-sm-2 am-form-label">调课类型 </label>
+                                        <div class="am-u-sm-10">
+                                            <input type="text" onfocus=this.blur() id="leaveType">
+                                        </div>
+                                    </div>
+                            
+                                    <div class="am-form-group ">
+                                        <label  class="am-u-sm-2 am-form-label">代课老师</label>
+                                        <div class="am-u-sm-10">
+                                            <input type="text" onfocus=this.blur() id="replaceTeacher" >
+                                        </div>
+                                    </div>
+                                    <div class="am-form-group ">
+                                    <label  for="leaveType" class="am-u-sm-2 am-form-label">调课理由</label>
+                                        <div class="am-u-sm-10">
+                                            <input type="text"  onfocus=this.blur() id="leaveReason">
+                                        </div>
+                                    </div>
+                               
+                            
+                        
+                        
+                                    <div class="am-form-group">
+                                        <label   class="am-u-sm-2 am-form-label">具体理由 </label>
+                                        <div class="am-u-sm-10" >
+                                            <textarea onfocus=this.blur()   id="specificReason"  rows="2"></textarea>
+                                        </div>
+                                    </div>
+                            
+                                <div class="am-form-group" style="margin: 0 auto;">
+                                 <label   class="am-u-sm-2 am-form-label"> </label>
+                                <div class="am-u-sm-10">
+                                    <div  align="center">
+                                        <b     class="am-btn am-icon-check  am-btn-success am-round"></b>
+                                        <b     class="am-btn am-icon-remove am-btn-danger am-round"></b>
+                                    </div>  
+                                    <div  align="center">
+                                        <span    class="am-btn last am-btn-secondary am-radius am-icon-arrow-left"></span>
+                                        <span    class="am-btn next am-btn-secondary am-radius am-icon-arrow-right"></span>
+                                        <br>
+                                        <span class="computerToPage" style="font-size: 1.7ex;">
+                                                                                                      跳转到<input type="text" id="computerToPageInput" style="width:50px;text-align: center;display: inline;">/<b class="page"></b>页 
+                                        <input class="am-btn am-btn-primary btn-xs" id="computerToPageButton" type="button" value="跳转"> 
+                                        </span>
+                                    </div>  
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                          
+                     
+					  </div>
+				
+					
+					
+					</div>
+					
+				</div>
+			</div>
+		</div>
+        <div id="mobileFlag" class="visible-xs-block"></div>
+		<script src="../assets/js/jquery3.3.1.js"></script>
+		  <script src="../assets/js/iscroll.js"></script>
+		<script src="../assets/js/amazeui.js"></script>
+		<script src="../assets/js/showmessage.js"></script>
+		<script src="../assets/js/teacherleaveinfo.js"></script>
+		<script>
+		</script>
+	</body>
+
+</html>

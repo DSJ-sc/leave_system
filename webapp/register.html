@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>注册</title>
+	<link rel="stylesheet" href="assets/css/bootstrap.css">
+	<link rel="stylesheet" href="assets/css/style.css">
+    <link rel="icon" href="assets/i/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="assets/css/amazeui.min.css">
+    <link rel="stylesheet" href="assets/css/admin.css">
+</head>
+<body>
+
+<div class="admin-content-body">
+      <div class="am-cf am-padding am-padding-bottom-0">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">教师注册</strong> </div>
+      </div>
+
+      <hr>
+
+      <div class="am-g">
+
+        <div class="am-u-md-11">
+          <form class="am-form am-form-horizontal">
+            <div class="am-form-group">
+              <label for="teacherName" class="am-u-sm-3 am-form-label">姓名 / Name</label>
+              <div class="am-u-sm-9">
+                <input type="text" id="teacherName" name="teacherName"  placeholder="请输入您的真实姓名 / Name">
+              </div>
+            </div>
+
+            <div class="am-form-group">
+              <label for="teacherUname" class="am-u-sm-3 am-form-label">登陆名 / LoginName</label>
+              <div class="am-u-sm-9">
+                <input type="text" id="teacherUname" name="teacherUname" autocomplete="off" placeholder="输入您登陆时使用的名称/ LoginName">
+              </div>
+            </div>
+            
+            <div class="am-form-group">
+              <label for="teacherPassword" class="am-u-sm-3 am-form-label">密码 / Password</label>
+              <div class="am-u-sm-9">
+                <input type="password"  id="teacherPassword" name="teacherPassword" autocomplete="new-password" placeholder="请输入您的登陆密码/ Password">
+              </div>
+            </div>
+             <div class="am-form-group">
+              <label for="teacherPassword1" class="am-u-sm-3 am-form-label">确认密码 / Password</label>
+              <div class="am-u-sm-9">
+                <input type="password" id="teacherPassword1" name="teacherPassword1" autocomplete="new-password" placeholder="请再次输入您的登陆密码/ Password">
+                <small class="password" style="color: red;display: none;">两次密码不一致</small>
+              </div>
+             
+            </div>
+            <div class="am-form-group">
+              <label for="teacherPhone" class="am-u-sm-3 am-form-label">电话 / Telephone</label>
+              <div class="am-u-sm-9">
+                <input type="text" maxlength="11" id="teacherPhone" name="teacherPhone" placeholder="输入您的电话号码 / Telephone">
+               <small class="phone" style="color: red;display: none;">请输入正确的手机号</small>
+              </div>
+            </div>
+
+            <div class="am-form-group">
+              <label for="teacherSex" class="am-u-sm-3 am-form-label">性别 / Sex</label>
+              <div class="am-u-sm-9">
+               <select data-am-selected id="teacherSex">
+                     <option value="男" selected="selected">男</option>
+                     <option value="女">女</option>
+               </select>
+              </div>
+            </div>
+
+            <div class="am-form-group">
+              <label  class="am-u-sm-3 am-form-label">学院/ Faculty</label>
+              <div class="am-u-sm-9">
+               <select data-am-selected id="teacherFaculty" name="teacherFaculty">
+                    
+               </select>
+              </div>
+            </div>
+            <div class="am-form-group">
+              <label class="am-u-sm-3 am-form-label">专业 / Specialty</label>
+              <div class="am-u-sm-9">
+               <select data-am-selected id="teacherSpecialty" name="teacherSpecialty">
+                    
+               </select>
+              </div>
+            </div>
+             <div class="am-form-group">
+              <label for="fullTeacher" class="am-u-sm-3 am-form-label">外聘/ External</label>
+              <div class="am-u-sm-9">
+               <select data-am-selected id="fullTeacher" name="fullTeacher">
+                       <option value="1">是</option>
+                       <option value="0">否</option>
+               </select>
+              </div>
+            </div>
+            <div class="am-form-group">
+              <label for="teacherPost" class="am-u-sm-3 am-form-label">职务/ Post</label>
+              <div class="am-u-sm-9">
+               <select data-am-selected id="teacherPost" name="teacherPost">
+                        <option value="006">普通教师</option>
+                        <option value="005">班主任</option>
+                        <option value="004">导员</option>
+                        <option value="003">专业主任</option>
+                        <option value="002">学院院长</option>
+                        <option value="001">教务处</option>
+               </select>
+              </div>
+            </div>
+            <div class="am-form-group">
+              <div class="am-u-sm-9 am-u-sm-push-3">
+                <button type="button" onclick="register()" class="am-btn am-btn-primary">注册</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+</body>
+    <script src="assets/js/jquery3.3.1.js"></script>
+   <script src="assets/js/register.js"></script>
+</html>

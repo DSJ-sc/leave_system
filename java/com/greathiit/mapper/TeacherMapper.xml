@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.greathiit.mapper.TeacherMapper">
+<cache eviction="FIFO" flushInterval="60000" size="512" readOnly="true" />
+	<sql id="student">
+	       s.student_sno,s.student_name,s.student_photo,s.student_class,s.student_phone,s.student_apartment
+	</sql>
+	<sql id="headteacher">
+	       l.is_one=0 
+           and l_class in(select c.class_name from tb_class c where class_head_teacher=#{teacherNum})
+           and l.leave_type !=3
+	</sql>
+    <!-- 登陆  -->
+    <select id="login" parameterType="teacher" resultMap="entityMapper.Teacher">
+        select * from tb_teacher,tb_specialty where specialty_id = teacher_specialty  and teacher_uname=#{teacherUname} and teacher_password=#{teacherPassword}
+    </select>
+    <select id="getOneApproval" resultType="message">
+    	select student_name content,leave_apply_time applyTime,student_leave_num leave_num,
+		CASE
+			when is_one = 0 and leave_type!=3 then class_head_teacher
+			when is_one = 0 and leave_type =3 then guide_teacher
+			when is_one = 1 and is_two = 0 then specialty_teacher_num
+			when is_two = 1 and is_three = 0 then faculty_teacher_num
+		END
+ 	recipient 
+    	FROM tb_student,tb_student_leave_wait,tb_class,tb_specialty,tb_faculty  where faculty = faculty_id and specialty_id = class_specialty and l_class=class_name and l_student_sno=student_sno and is_three = 0
+    </select>
+    <select id="getStudentSpecialty" parameterType="String" resultType="specialty">
+    	select * from tb_specialty,tb_faculty  where specialty_id = #{specialty} and faculty = faculty_id
+    </select>
+    <!-- 查看请假学生  -->
+    <select id="getLeaveStudent"  resultType="studentLeaveInfo" useCache="false">
+        select l_class class_name,l_student_sno student_sno,l_name student_name,leave_apply_time,leave_start_time,leave_end_time,
+        (case leave_type  when 1 then "事假" when 2 then "病假"  when 3 then "晚假"  end) leave_type,is_three leave_approval_three
+        from tb_student_leave where #{time} BETWEEN leave_start_time and leave_end_time and l_class in
+    	 <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+		        	#{item}
+		 </foreach>
+		 GROUP BY l_class,l_student_sno,leave_type
+    </select> 
+      <select id="getWaitLeaveStudent"  resultType="studentLeaveInfo" useCache="false">
+        select l_class class_name,l_student_sno student_sno,l_name student_name,leave_apply_time,
+        (case leave_type  when 1 then "事假" when 2 then "病假"  when 3 then "晚假"  end) leave_type,is_three leave_approval_three
+        from tb_student_leave_wait where #{time} BETWEEN leave_start_time and leave_end_time and l_class in
+         <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+         </foreach>
+         GROUP BY l_class,l_student_sno,leave_type
+    </select> 
+    <!-- 查询请假信息 -->
+    <select id="queryLeave" parameterType="string" resultMap="entityMapper.TeacherLeaveInfo">
+        select * from tb_teacher_leave where teacher_num = #{teacherNum}   order by teacher_leave_num desc
+    </select>
+    <!-- 查询学生某一具体请假信息 -->
+    <select id="getOneStudentLeave" parameterType="String" resultMap="entityMapper.studentLeave">
+        select * from tb_student_leave_wait where  student_leave_num= #{leaveId}
+    </select>
+    <!-- 查询学生的请假申请 -->
+    <select id="getApprovalStudentLeave" parameterType="java.util.List" resultMap="entityMapper.Student">
+        select <include refid="student"></include>,<include refid="entityMapper.studentLeave"></include> from tb_student s, tb_student_leave_wait l
+       	 where student_sno = l_student_sno and student_leave_num in
+		        <foreach collection="list" item="leaveNum" index="index" open="(" separator="," close=")">
+		        	#{leaveNum}
+		        </foreach>
+	        
+    </select>
+    <!-- 查询班级请假信息 -->
+    <select id="queryClassStatistics" parameterType="Map" resultMap="entityMapper.SpecialtySituationAnalysis">
+      SELECT 
+ 	LEFT(date,${time}+3) leave_time,l_class,
+ 	COUNT(leave_type) sum_leave_num,
+	SUM(CASE leave_type WHEN 1 THEN 1 ELSE 0 end) persona_leave_num, 
+	SUM(CASE leave_type WHEN 2 THEN 1 ELSE 0 end) sick_leave_num, 
+	SUM(CASE leave_type WHEN 3 THEN 1 ELSE 0 end) night_leave_num, 
+	SUM(CASE is_one and is_two and is_three WHEN 1 THEN 1 ELSE 0 end) pass_num, 
+    SUM(CASE is_one and is_two and is_three WHEN 0 THEN 1 ELSE 0 end) refuse_num 
+	FROM tb_date_temp   LEFT OUTER JOIN tb_student_leave on date BETWEEN LEFT(leave_start_time,10) and LEFT(leave_end_time,10)
+	  <where>
+           <if test="1">
+             	 LEFT(date,${time}) = #{startTime} and l_faculty=#{facultyName}
+           </if>
+           <if test="specialtyName != '' and specialtyName != null">
+           		and l_specialty=#{specialtyName}
+           </if>
+           <if test="className != '' and className != null">
+             		and l_class = #{className}
+           </if>
+      </where> 
+	GROUP BY l_class,leave_time ORDER BY l_class, LEFT (date,7+3)
+    </select>
+    <!-- 查询某学生的请假统计信息 -->
+    <select id="queryStudentStatistics" parameterType="Map" resultMap="entityMapper.ClassSituationAnalysis">
+  SELECT 
+ 	LEFT(date,${time}+3) leave_time,l_class,student_sno,student_name,student_sex,
+ 	COUNT(leave_type) sum_leave_num,
+	SUM(CASE leave_type WHEN 1 THEN 1 ELSE 0 end) persona_leave_num, 
+	SUM(CASE leave_type WHEN 2 THEN 1 ELSE 0 end) sick_leave_num, 
+	SUM(CASE leave_type WHEN 3 THEN 1 ELSE 0 end) night_leave_num, 
+	SUM(CASE is_one and is_two and is_three WHEN 1 THEN 1 ELSE 0 end) pass_num, 
+    SUM(CASE is_one and is_two and is_three WHEN 0 THEN 1 ELSE 0 end) refuse_num 
+	FROM tb_student,tb_date_temp LEFT OUTER JOIN tb_student_leave on date BETWEEN LEFT(leave_start_time,10) and LEFT(leave_end_time,10)
+	  <where>
+         <if test="1">
+             	l_student_sno = student_sno and LEFT(date,${time}) = #{startTime} 
+         </if>
+         <if test="className != null and className != ''">
+             	and l_class = #{className}
+         </if>
+         <if test="studentSno != null and studentSno !=''">
+             	and student_sno =#{studentSno}
+         </if>
+      </where> 
+	GROUP BY leave_time,l_student_sno
+	ORDER BY student_sno, date
+	</select>
+    <!-- 查询自己带的班级 -->
+    <select id="getClassName" parameterType="string" resultMap="entityMapper.ClassStudents" >
+    	select class_name,student_name,student_sno  from tb_class,tb_student where  class_head_teacher = #{teacherNum} and student_class = class_name
+    </select>
+     <select id="getSpecialtyName" parameterType="string" resultMap="entityMapper.SpecialtyClass" >
+   		SELECT specialty_id, specialty_name,class_name from tb_class,tb_specialty,tb_faculty where faculty = faculty_id and specialty_id=class_specialty and faculty = #{faculty}
+    </select>
+    <!-- 审批请假学生 -->
+    <update id="setStudentLeave"  parameterType="studentLeaveinfo">
+        update tb_student_leave_wait set is_one=#{leaveApprovalOne},one_time=#{leaveApprovalOneTime},one_remarks=#{leaveApprovalOneRemarks},
+                                 is_two=#{leaveApprovalTwo},two_time=#{leaveApprovalTwoTime},two_remarks=#{leaveApprovalTwoRemarks},
+                                 is_three=#{leaveApprovalThree},three_time=#{leaveApprovalThreeTime},three_remarks=#{leaveApprovalThreeRemarks}
+                                 where student_leave_num=#{studentLeaveNum}  
+    </update>
+    <insert id="setApprovalStudentLeave" parameterType="studentLeaveInfo" >
+    insert into tb_student_leave(l_student_sno,student_leave_num,l_class,l_name,l_specialty,l_faculty,leave_type,leave_apply_time,
+                              leave_reason,leave_prove,leave_start_time,leave_end_time,
+                              parent_phone,leave_agreement,is_one,one_time,one_remarks,is_two,two_time,two_remarks,is_three,three_time,three_remarks)
+                       values(#{studentSno},#{studentLeaveNum},#{className},#{studentName},#{specialty},#{faculty},
+                              #{leaveType},#{leaveApplyTime},
+                              #{leaveReason}, #{leaveProve},#{leaveStartTime},#{leaveEndTime},
+                              #{parentPhone}, #{leaveAgreement},#{leaveApprovalOne},#{leaveApprovalOneTime},#{leaveApprovalOneRemarks},
+                              #{leaveApprovalTwo},#{leaveApprovalTwoTime},#{leaveApprovalTwoRemarks},#{leaveApprovalThree},#{leaveApprovalThreeTime},#{leaveApprovalThreeRemarks})       
+    </insert>
+    <!-- 添加请假信息 -->
+    <insert id="addLeave" parameterType="java.util.List"  >
+         insert into tb_teacher_leave 
+         (	
+         	teacher_leave_num,teacher_num,teacher_name,teacher_specialty,teacher_faculty, leave_apply_time, 
+            class_name, course_name, old_schoolweek, 
+            old_day, old_week, old_time,old_class_room, 
+            new_schoolweek, new_day, new_week, 
+            new_time,new_class_room, leave_type, replace_teacher, 
+            leave_reason, specific_reason       
+            )
+        values 
+        <foreach collection="list" item="teacherLeaveInfo" index="index" separator="," close=";">
+        (
+        	#{teacherLeaveInfo.teacherLeaveNum,jdbcType=VARCHAR},
+        	#{teacherLeaveInfo.teacherNum,jdbcType=VARCHAR},  
+        	#{teacherLeaveInfo.teacherName,jdbcType=VARCHAR}, 
+        	#{teacherLeaveInfo.teacherSpecialty,jdbcType=VARCHAR}, 
+        	#{teacherLeaveInfo.teacherFaculty,jdbcType=VARCHAR}, 
+        	#{teacherLeaveInfo.leaveApplyTime,jdbcType=VARCHAR}, 
+            #{teacherLeaveInfo.className,jdbcType=VARCHAR}, 
+            #{teacherLeaveInfo.courseName,jdbcType=VARCHAR}, 
+            #{teacherLeaveInfo.oldSchoolweek,jdbcType=INTEGER}, 
+            #{teacherLeaveInfo.oldDay,jdbcType=DATE},
+            #{teacherLeaveInfo.oldWeek,jdbcType=CHAR}, 
+            #{teacherLeaveInfo.oldTime,jdbcType=CHAR},
+            #{teacherLeaveInfo.oldClassRoom,jdbcType=VARCHAR}, 
+            #{teacherLeaveInfo.newSchoolweek,jdbcType=INTEGER},
+            #{teacherLeaveInfo.newDay,jdbcType=DATE}, 
+            #{teacherLeaveInfo.newWeek,jdbcType=CHAR}, 
+            #{teacherLeaveInfo.newTime,jdbcType=CHAR}, 
+            #{teacherLeaveInfo.newClassRoom,jdbcType=VARCHAR}, 
+            #{teacherLeaveInfo.leaveType,jdbcType=VARCHAR},
+            #{teacherLeaveInfo.replaceTeacher,jdbcType=VARCHAR}, 
+            #{teacherLeaveInfo.leaveReason,jdbcType=VARCHAR}, 
+            #{teacherLeaveInfo.specificReason,jdbcType=LONGVARCHAR}
+		)
+       </foreach>
+    </insert>
+    <select id="queryClass" resultType="studentClass" parameterType="studentClass">
+		select class_name	from tb_class
+	</select> 
+	<select id="queryCourse" resultType="string" >
+		select course_name	from tb_course
+	</select> 
+	<delete id="delStudentLeave" parameterType="String">
+       delete from tb_student_leave_wait where  student_leave_num= #{leaveId}
+    </delete>
+</mapper>

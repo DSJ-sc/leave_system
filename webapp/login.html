@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>用户登录系统</title>
+	<link rel="stylesheet" href="assets/css/bootstrap.css">
+	<link rel="stylesheet" href="assets/css/style.css">
+    <link rel="icon" href="assets/i/favicon.ico" type="image/x-icon">
+
+</head>
+	<body class="style-2" style="background-image: url(assets/img/bg.jpg);">
+    <div class="container">
+			<div class="row">
+				<div class="col-md-12" id="logo" >
+					<img id="img" src="assets/img/logo.png" width="150px" height="150px"  style="margin-top: 10px">
+				</div>
+			</div>
+		<div class="row">
+			<div class="col-md-4">
+				<div class="fh5co-form" style="margin-top: 10px">
+					<h2 id="tips">
+						请输入您的用户名和密码
+					</h2>
+					<div id="error" style="color: red;display: none;">用户名或密码错误</div>
+					<div class="form-group">
+						<label for="username" id="username-label" style="display: none;color: red;">请输入用户名</label>						
+								<input id="username" name="username" class="required form-control" tabindex="1" placeholder="用户名" type="text" size="25" >
+					</div>
+					<div class="form-group">
+						<label for="password" id="password-label" style="display:none;color: red;">请输入密码</label>
+						<input id="password" name="password" class="required form-control" tabindex="2" placeholder="密码"  type="password"  size="25">
+					</div>
+					<div class="form-group">
+						<section class="text-center">
+							<input type="button"  class="btn btn-primary" id="submit"  value="登录" > 
+							<input type="button" class="btn btn-reset" id="reset" value="重置" >
+						</section>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	   <div id="bottom" class="row" style="width:100%;position:fixed;bottom:0;left:0;">
+				<div class="col-md-12 text-center">
+        <p>学院地址：哈尔滨市宾西经济技术开发区大学城9号　　邮编：150025 
+           </p></div>
+			</div>
+		</div>
+		<div id="mobileFlag" class="visible-xs-block"></div>
+		<script src="assets/js/jquery3.3.1.js"></script>
+		<script>
+		　$(document).keydown(function(event){
+        　　　　if(event.keyCode=='13'){
+        	login();
+        　　　　}
+        　　      });
+		if ($("#mobileFlag").is(":hidden")){
+			
+		 }else{
+			 $("#logo").css("text-align","center");
+			 $(".style-2").css("background-image","url(assets/img/phone.jpg)");
+			 $("#tips").hide();
+			 $("#bottom").css({"position":"static","margin-top":"50px"});
+		 }
+			$("#submit").click(login);
+			$("#reset").click(function(){
+				 $("#error").hide();
+				 $("#username").val("");
+				 $("#password").val("");
+				 $("#username").focus();
+			});
+			$("#username").keydown(function(){
+					$("#error").hide();
+					$("#username-label").hide();
+			});
+			$("#password").keydown(function(){
+				 	$("#error").hide();
+					$("#password-label").hide();
+			});	
+			function login(){
+                var username = $("#username");
+                var password = $("#password");
+                if(username.val().toString()==""){
+                    $("#username-label").show();
+                    username.focus();
+                    return false;
+                }
+                if(password.val().toString()==""){
+                    $("#password-label").show();
+                    password.focus();
+                    return false;
+                }
+                 $.ajax({
+                     async : true ,
+                     type : "post",//传值方式
+                     url : 'userLogin',//请求的地址
+                     data : { 
+                      //传送的数据 名:值用逗号隔开
+                     "username" : username.val().toString(),
+                     "password":password.val().toString(),
+                     },
+                     //回调函数 返回的值
+                     success : function(data) {
+                         if(data==1){
+                             $(window).attr('location','student/studentaddleave.html');
+                         } else if(data == 0){
+                             $("#error").show();
+                         } else if(data == 2){
+                             $(window).attr('location','teacher/teacherAddLeave.html');
+                         } else if(data == 3){
+                             $(window).attr('location','headteacher/teacherAddLeave.html');
+                         } else if(data == 4){
+                             $(window).attr('location','manager/teacherAddLeave.html');
+                         }else{
+                             $(window).attr('location','admin/adminIndex.html');
+                         }                      
+                     }
+                     }); 
+                
+            }
+		</script>
+</body>
+</html>

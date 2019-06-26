@@ -1,0 +1,226 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>获取请假学生</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="renderer" content="webkit">
+		<link rel="icon" href="../assets/i/favicon.ico">
+		<link rel="stylesheet" href="../assets/css/amazeui.min.css" />
+		<link rel="stylesheet" href="../assets/css/admin.css">
+		<link rel="stylesheet" href="../assets/css/app.css">
+		<link rel="stylesheet" href="../assets/css/ace.min.css">
+		<style type="text/css">
+		</style>
+	</head>
+
+<body  data-type="index" style="background-color: #E4E6E9;">
+<header class="am-topbar am-topbar-inverse admin-header">
+			<div class="am-topbar-brand am-sans-serif">
+				<img src="../assets/img/logo.png" width="70px" height="71px" />
+				哈尔滨信息工程学院
+			</div>
+
+
+			<button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span
+				 class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+
+			<div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+		<ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">
+					<li class="am-dropdown" data-am-dropdown data-am-dropdown-toggle>
+						<a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
+							<span class="am-icon-user"></span> 点名 
+						</a>
+						<ul class="am-dropdown-content tpl-dropdown-content">
+							 <li>
+                                <a href="teacherGetStudent.html" class="tpl-dropdown-content-progress">
+                                    <span class="task">
+                                        <i class="am-icon-users"> </i>
+                                        <span class="desc">查看请假学生</span>
+                                    </span>
+                                </a>
+                            </li>
+						</ul>
+					</li>
+					<li class="am-dropdown" data-am-dropdown="" data-am-dropdown-toggle="">
+						<a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
+							<span class="am-icon-edit"></span> 调课 <span id="sunnum" class="am-badge tpl-badge-success am-round"></span>
+						</a>
+						<ul class="am-dropdown-content tpl-dropdown-content">
+							<li>
+								<a href="teacherAddLeave.html" class="tpl-dropdown-content-progress">
+									<span class="task">
+										<i class="am-icon-plus-circle"> </i>
+										<span class="desc">添加调课请求</span>
+									</span>
+								</a>
+							</li>
+							<li>
+								<a href="teacherLeaveInfo.html" class="tpl-dropdown-content-progress">
+									<span class="task">
+										<i class="am-icon-search-plus"></i>
+										<span class="desc">查看调课请求</span>
+										<span id="cheaknum" class="am-badge tpl-badge-warning am-round" style="margin-left: 80px;"></span>
+									</span>
+								</a>
+							</li>
+						</ul>
+					</li>
+						<li class="am-dropdown" data-am-dropdown="" data-am-dropdown-toggle="">
+						<a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
+							<span class="am-icon-bell-o"></span> 消息 <span class="am-badge tpl-badge-success am-round newsSum"></span>
+						</a>
+						<ul class="am-dropdown-content tpl-dropdown-content" style="padding: 0;text-align: center;">	
+							<li class="tpl-dropdown-content-external" style="padding: 4px 4px 4px 4px">
+								
+								 <div onclick="location='approvalStudent.html'" style="cursor:pointer;background-color:#E4E6E9;color: black;">
+								 <b>您有 <span class="tpl-color-success studentLeaveSum">0</span> 条学生请假请求待处理</b>
+								
+								 </div>
+								<div style="background-color: #F5F5F5;">
+								<ul id="studentLeaveInfo" style="margin: 0; font-size:smaller; color: black;">
+							
+								</ul>
+								</div>
+							</li>				
+						</ul>
+					</li>
+						<li class="am-dropdown" data-am-dropdown="" data-am-dropdown-toggle="">
+						<a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
+							<span class="am-icon-pie-chart"></span> 请假信息统计 
+						</a>
+						<ul class="am-dropdown-content tpl-dropdown-content">
+							<li class="tpl-dropdown-list-bdbc"><a href="studentLeaveStatisticsInfo.html" class="tpl-dropdown-list-fl"><span class="am-icon-area-chart"></span>
+									查询本班级的请假信息</a>
+							</li>
+							<li class="tpl-dropdown-list-bdbc"><a href="othersLeaveStatisticsInfo.html" class="tpl-dropdown-list-fl"><span class="am-icon-area-chart"></span>
+									查询其他班级的请假信息</a>
+							</li>
+						</ul>
+					</li>
+					<li class="am-dropdown" data-am-dropdown="" data-am-dropdown-toggle="">
+						<a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
+							<span class="am-icon-user-secret"> </span><span class="tpl-header-list-user-nick"></span>
+						</a>
+						<ul class="am-dropdown-content">
+							<li><a class="tpl-dropdown-content-progress" href="../teacher/cancellation"><span class="am-icon-power-off"></span> 退出</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</header>
+	<div class="tpl-page-container tpl-page-header-fixed">
+		<div id="page-content" class="page-content" >
+			<div class="tpl-portlet-components" style="text-align: center;overflow: visible;">
+				<div class="portlet-title">
+					
+							<select class="className"  multiple data-am-selected="{searchBox: 1,btnWidth: '40%',maxHeight:200}">
+							</select>
+							<button class="am-btn-secondary am-btn-xl am-btn-default" onclick="select()" type="button">查询</button>	
+					
+				</div>
+				<div class="tpl-block">
+					<div class="am-g center">
+						
+					<table class="am-table am-table-striped am-table-hover table-main select" >
+									<thead>
+										<tr>
+											<th class=" center" >班级</th>
+											<th class=" center" >学号</th>
+											<th class=" center" >姓名</th>
+											<th class=" center" >申请请假时间</th>
+											<th class=" center" >请假时间</th>
+											<th class=" center" >请假类型</th>
+											<th class=" center" >审批状态</th>
+										</tr>
+									</thead>
+								<tbody align="center">
+							
+								</tbody>
+								
+								</table>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+		<script src="../assets/js/jquery3.3.1.js"></script>
+		<script src="../assets/js/amazeui.js"></script>
+		<script src="../assets/js/showmessage.js"></script>
+		<script>
+		$(function(){
+			$.ajax({
+			     async : true ,
+			     type : "post",//传值方式
+			     url : '../getUser',//请求的地址
+			     data : { 
+			    	 "identity":'teacher'
+			     },
+			     //回调函数 返回的值
+			     success : function(data) {
+			    		teacher=data.teacherNum;
+			    		linkWebsocket(teacher);
+			    	$(".am-icon-user-secret").append(data.teacherName);
+			     }
+			     }); 
+			$.ajax({
+				aysnc:true,
+				type:'post',
+				url:'../teacher/queryClass',
+				success: function (data){
+					var className = $('.className');
+					className.append('<option></option>');
+					for(var i=0,j=data.length;i<j;i++){
+						className.append('<option value="'+data[i].className+'">'+data[i].className+'</option>');
+					}
+				}
+				
+			});
+		});	
+		function select(){
+			if($('.className').val() != ''){
+			 $.ajax({
+				aysnc:true,
+				type:'post',
+				url:'../teacher/getStudent',
+				data:{'leaveClass':JSON.stringify($('.className').val())},
+				success: function (data){
+					var appro = null;
+					var tbody = $('tbody');
+					tbody.html("");
+					for(var i=0,j=data.length;i<j;i++){
+						console.log(data[i]);
+						switch (data[i].leaveApprovalThree) {
+			    		case '0': 
+			    			appro = '<i class="am-icon-warning orange">';
+							break;
+						case '1':
+							appro ='<i class="am-icon-check green">';
+							break;
+						case '2':
+							appro = '<i class="am-icon-remove red">';
+							break;
+						}
+						tbody.append('<tr><td>'+data[i].className+'</td>'+
+										  '<td>'+data[i].studentSno+'</td>'+
+										  '<td>'+data[i].studentName+'</td>'+
+										  '<td>'+data[i].leaveApplyTime+'</td>'+
+										  '<td>'+data[i].leaveStartTime+' 至 '+data[i].leaveEndTime+'</td>'+
+										  '<td>'+data[i].leaveType+'</td>'+
+										  '<td>'+appro+'</td>');
+					}
+					$('.className').val("");
+					$('.className').trigger('changed.selected.amui');
+				}
+				
+			}); 
+			}
+		}
+		
+		</script>
+	</body>
+
+</html>

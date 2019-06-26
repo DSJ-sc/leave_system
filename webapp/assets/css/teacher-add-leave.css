@@ -1,0 +1,59 @@
+@charset "UTF-8";
+	body{
+		background-color: #E4E6E9;
+	}
+		.primary{
+				width: 12%!important;
+				display: inline!important;
+				text-align: center;
+		}
+		.Primary{
+                width: 20%!important;
+                display: inline!important;
+                text-align: center;
+        }
+        .PrimaryWeek{
+            text-align: center;
+        }
+		lable{
+			margin-top:50%!important; 
+		}
+		.input{
+			width: 76%!important;
+		}
+		p{
+			width: 75%!important;
+			text-align:center;
+			font-size: large;
+			margin-bottom: 2px;
+			margin-top: 2px;
+		}
+		.adjustment{
+			margin-left: -2.5%;
+			font-size: small;
+			display: block;
+		}
+		.hideWindowOne {
+			display: none;
+		}
+		.hideWindowTwo{
+			display: none;
+		}
+		span{
+		 text-align: center;
+		}
+		.CnewDay {
+		display: inline!important;
+		width: 33%!important; 
+		text-align: center!important;
+		}
+		.ColdDay {
+		display: inline!important;
+		width: 33%!important; 
+		text-align: center!important;
+		}
+		.hr{
+			width: 76%;
+			height:1px;
+			background-color:black;
+		}

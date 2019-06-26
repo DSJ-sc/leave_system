@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.greathiit.mapper.AdminMapper">
+<cache eviction="FIFO" flushInterval="60000" size="512" readOnly="true" />
+	<!-- 班级 -->
+	<select id="queryClass" resultType="studentClass" parameterType="studentClass">
+		select class_name ,(SELECT teacher_name FROM tb_teacher where teacher_num = class_head_teacher) class_head_teacher, 
+		(SELECT teacher_name FROM tb_teacher where teacher_num = guide_teacher) class_guide_teacher, specialty_name,class_student_num,class_grade
+		from tb_class,tb_specialty 
+		<where>
+			<if test="true">class_specialty = specialty_id</if>
+			<if test="className != null and className != ''">and class_name like '%${className}%'</if>
+			<if test="classHeadTeacher != null and classHeadTeacher != ''">and class_head_teacher like '%${classHeadTeacher}%'</if>
+			<if test="classGuideTeacher != null and classGuideTeacher != ''">and class_guide_teacher like '%${classGuideTeacher}%'</if>
+			<if test="specialtyName != null and specialtyName != ''">and specialty_name like '%${specialtyName}%'</if>
+			<if test="classGrade != null and classGrade != ''">and class_grade like '%${classGrade}%'</if>
+		</where>
+	</select> 
+	<insert id="insertClass" parameterType="studentClass">
+		insert into tb_class (class_name,class_head_teacher,class_guide_teacher,class_specialty,class_student_num,class_grade)
+		values
+		 <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+		       	#{item.className},#{item.classHeadTeacher},#{item.classGuideTeacher},#{item.specialtyName},#{item.classStudentNum},#{item.classGrade}
+		 </foreach>
+	
+	</insert>
+	<update id="updateClass" parameterType="studentClass">
+		update tb_class 
+			<set>
+			<if test="classHeadTeacher != null and classHeadTeacher != ''">class_head_teacher = #{classHeadTeacher,jdbcType=VARCHAR}, </if>
+			<if test="classGuideTeacher != null and  classGuideTeacher != ''">class_guide_teacher = #{classGuideTeacher,jdbcType=VARCHAR}, </if>
+			<if test="classStudentNum != null and classStudentNum != ''">class_student_num = #{classStudentNum,jdbcType=INTEGER}, </if>			</set>
+		where class_name = #{className,jdbcType=VARCHAR} 
+</update>
+	<delete id="deleteClass" parameterType="java.util.List">
+		delete from tb_class where class_name in
+		 <foreach collection="list" item="className" index="index" open="(" separator="," close=")">
+		        	#{className}
+		 </foreach>
+	</delete> 
+	<!-- 专业 -->
+	<select id="querySpecialty" parameterType="specialty" resultType="specialty">
+		select specialty_id, specialty_name,  a.teacher_name specialty_teacher_num, b.teacher_name guide_teacher_num,
+        faculty_name from tb_specialty,tb_faculty,tb_teacher a,tb_teacher b
+		<where>
+			<if test="true">faculty_id = faculty and specialty_teacher_num =  a.teacher_num  and guide_teacher = b.teacher_num </if>
+			<if test="specialtyName != null and specialtyName != ''"> specialty_name like '%${specialtyName}%' </if>
+			<if test="facultyName != null and facultyName != ''">and (faculty_name like '%${facultyName}%' or faculty = ${facultyName})</if>
+		</where>
+	</select>
+	<insert id="insertSpecialty" parameterType="specialty">
+		insert into tb_specialty (specialty_id, specialty_name, specialty_teacher_num,guide_teacher,faculty)
+		values 
+		<foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+		     #{item.specialtyId,jdbcType=VARCHAR}, #{item.specialtyName,jdbcType=VARCHAR},
+		     #{item.specialtyTeacherNum,jdbcType=VARCHAR},#{item.guideTeacherNum,jdbcType=VARCHAR} #{item.facultyName,jdbcType=VARCHAR} 
+		</foreach>
+	</insert>
+	<update id="updateSpecialty" parameterType="specialty">
+		update tb_specialty set specialty_teacher_num = #{specialtyTeacherNum,jdbcType=VARCHAR}	
+		,guide_teacher = #{guideTeacherNum,jdbcType=VARCHAR}  
+		where specialty_name = #{specialtyName,jdbcType=VARCHAR} 
+	</update>
+	<delete id="deleteSpecialty" parameterType="string">
+		delete from tb_specialty where specialty_id = #{specialtyId,jdbcType=VARCHAR} 
+	</delete>
+	
+	
+	<!-- 学院 -->
+	<select id="queryFaculty" parameterType="faculty" resultType="faculty">
+		select faculty_id, faculty_name, teacher_name faculty_teacher_num, 
+		faculty_name from tb_faculty,tb_teacher where faculty_teacher_num =  teacher_num 
+
+	</select>
+	<insert id="insertFaculty" parameterType="faculty">
+		insert into tb_faculty (faculty_id, faculty_name, faculty_teacher_num)
+		values
+		<foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+		 #{item.facultyId,jdbcType=VARCHAR}, #{item.facultyName,jdbcType=VARCHAR}, #{item.facultyTeacherNum,jdbcType=VARCHAR}
+		</foreach>
+
+	</insert>
+	<update id="updateFaculty" parameterType="faculty">
+		update tb_faculty set faculty_teacher_num = #{facultyTeacherNum,jdbcType=VARCHAR}	
+		where faculty_name = #{facultyName,jdbcType=VARCHAR} 
+	</update>
+	<delete id="deleteFaculty" parameterType="string">
+		delete from tb_faculty where faculty_id = #{facultyId,jdbcType=VARCHAR} 
+	</delete>
+	
+	<!-- 课程 -->
+	<select id="queryCourse" resultType="course">
+		select * from tb_course 
+		<where>
+		 <if test="courseName != null and courseName != ''"> course_name like '%${courseName}%'</if>
+		 <if test="true"> and true</if>
+		</where>
+	</select>
+	<insert id="insertCourse" parameterType="com.greathiit.entity.Course">
+		insert into tb_course (course_id, course_name)
+		values 
+		<foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+			#{item.courseId,jdbcType=INTEGER}, #{item.courseName,jdbcType=VARCHAR} 
+		</foreach>
+		
+	</insert>
+	<update id="updateCourse" parameterType="com.greathiit.entity.Course">
+		update tb_course 		
+		<set>		
+		<if test="courseName != null and courseName != ''">course_name = #{courseName,jdbcType=VARCHAR}, </if>
+		</set>
+		where course_id = #{courseId,jdbcType=INTEGER} 
+	</update>
+	<delete id="deleteCourse" parameterType="java.lang.String">
+		delete from tb_course where course_id = #{courseId,jdbcType=INTEGER} 
+	</delete>
+	<!-- 课程表 -->
+	<select id="querySyllabus" resultType="syllabus">
+		SELECT teach_id, teacher_name  teach_teacher_id, course_name teach_course, teach_class, teach_start_time, teach_end_time,teach_week_time, teach_day_time, 				teach_classroom 	
+		FROM tb_syllabus,tb_teacher,tb_course 
+		<where>
+			<if test="true">
+				teacher_num =  teach_teacher_id and teach_course = course_id
+			</if>
+			<if test="teachClassroom != null and teachClassroom != ''">
+				and teach_classroom like '%${teachClassroom}%'
+			</if>
+			<if test="teachClass != null and teachClass != ''">
+				and teach_class like '%${teachClass}%'
+			</if>
+			<if test="teachTeacherId != null and teachTeacherId != ''">
+				and teacher_name like '%${teachTeacherId}%'
+			</if>
+			<if test="teachCourse != null and teachCourse != ''">
+				and course_name like '%${teachCourse}%'
+			</if>
+		</where>
+		 
+	</select>
+	<insert id="insertSyllabus" parameterType="list">
+		insert into tb_syllabus (teach_teacher_id, teach_course,teach_class, teach_start_time, teach_end_time,teach_week_time, teach_day_time, teach_classroom)
+		values 
+		<foreach collection="list" item="item" index="index"  separator=",">
+			(#{item.teachTeacherId,jdbcType=VARCHAR}, 
+			#{item.teachCourse,jdbcType=INTEGER},
+			#{item.teachClass,jdbcType=VARCHAR}, 
+			#{item.teachStartTime,jdbcType=DATE}, 
+			#{item.teachEndTime,jdbcType=DATE},
+			#{item.teachWeekTime,jdbcType=VARCHAR},
+			#{item.teachDayTime,jdbcType=VARCHAR}, 
+			#{item.teachClassroom,jdbcType=VARCHAR})
+ 		</foreach>
+	</insert>
+	<update id="updateSyllabus" parameterType="syllabus">
+		update tb_syllabus 	
+		<set>		
+		<if test="teachTeacherId != null and teachTeacherId != ''">teach_teacher_id = #{teachTeacherId,jdbcType=VARCHAR}, </if>		
+		<if test="teachCourse!= null and teachCourse != ''">teach_course = #{teachCourse,jdbcType=INTEGER}, </if>		
+		<if test="teachClass != null and teachClass != ''">teach_class = #{teachClass,jdbcType=VARCHAR}, </if>		
+		<if test="teachStartTime != null and teachStartTime != ''">teach_start_time = #{teachStartTime,jdbcType=DATE}, </if>		
+		<if test="teachEndTime != null and teachEndTime != ''">teach_end_time = #{teachEndTime,jdbcType=DATE}, </if>		
+		<if test="teachWeekTime != null and teachWeekTime !=''">teach_week_time = #{teachWeekTime,jdbcType=VARCHAR}, </if>		
+		<if test="teachDayTime != null and teachDayTime != ''">teach_day_time = #{teachDayTime,jdbcType=VARCHAR}, </if>		
+		<if test="teachClassroom != null and teachClassroom != ''">teach_classroom = #{teachClassroom,jdbcType=VARCHAR}, </if>		
+		</set>
+		where teach_id = #{teachId,jdbcType=INTEGER} 
+	</update>
+	<delete id="deleteSyllabus" parameterType="string">
+		delete from tb_syllabus where teach_id in
+		 <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+		        	#{item}
+		 </foreach>
+	</delete>
+	
+	<!-- 教师 -->
+	<select id="queryTeacher" parameterType="teacher" resultMap="entityMapper.Teacher">
+		select teacher_num, teacher_uname, teacher_password, teacher_name, teacher_sex, faculty_name teacher_faculty,specialty_name teacher_specialty, teacher_post, teacher_phone, is_full_teacher 
+		from tb_teacher ,tb_specialty,tb_faculty
+		<where>
+			<if test="true">teacher_specialty = specialty_id and teacher_faculty = faculty_id </if>
+			<if test="teacherNum != null and teacherNum != ''">and teacher_num = #{teacherNum} </if>
+			<if test="teacherName != null and teacherName != ''">and teacher_name like '%${teacherName}%' </if>
+			<if test="teacherSex != null and teacherSex != ''">and teacher_sex = #{teacherSex} </if>
+			<if test="teacherFaculty != null and teacherFaculty != ''">and (faculty_name like '%${teacherFaculty}%' or teacher_faculty = #{teacherFaculty}) </if>
+			<if test="teacherSpecialty != null and teacherSpecialty != ''">and specialty_name like '%${teacherSpecialty}%' </if>
+			<if test="fullTeacher != null  and fullTeacher!= ''">and is_full_teacher = #{fullTeacher} </if>
+		</where>
+	</select>
+	<insert id="insertTeacher" parameterType="teacher">
+		insert into tb_teacher (teacher_num, teacher_uname, teacher_password,teacher_name, teacher_sex, teacher_faculty,teacher_specialty, teacher_post, teacher_phone,is_full_teacher)
+		values 
+			(#{teacherNum,jdbcType=VARCHAR}, #{teacherUname,jdbcType=VARCHAR}, 
+			#{teacherPassword,jdbcType=VARCHAR},#{teacherName,jdbcType=VARCHAR}, 
+			#{teacherSex,jdbcType=CHAR},#{teacherFaculty,jdbcType=CHAR},
+			#{teacherSpecialty,jdbcType=VARCHAR}, #{teacherPost,jdbcType=VARCHAR}, 
+			#{teacherPhone,jdbcType=CHAR},#{fullTeacher,jdbcType=BIT})
+	</insert>
+	<update id="updateTeacher" parameterType="teacher">
+		update tb_teacher 
+		<set>
+		<if test="teacherUname != null and teacherUname != ''">teacher_uname = #{teacherUname,jdbcType=VARCHAR}, </if>
+		<if test="teacherPassword != null and teacherPassword != ''">teacher_password = #{teacherPassword,jdbcType=VARCHAR}, </if>
+		<if test="teacherName != null and teacherName != ''">teacher_name = #{teacherName,jdbcType=VARCHAR}, </if>
+		<if test="teacherSex != null and teacherSex != ''">teacher_sex = #{teacherSex,jdbcType=CHAR}, </if>
+		<if test="teacherFaculty != null and teacherFaculty != ''">teacher_faculty = #{teacherFaculty,jdbcType=CHAR}, </if>
+		<if test="teacherSpecialty != null and teacherSpecialty != ''">teacher_specialty = #{teacherSpecialty,jdbcType=VARCHAR}, </if>
+		<if test="teacherPost != null and teacherPost != ''">teacher_post = #{teacherPost,jdbcType=VARCHAR}, </if>
+		<if test="teacherPhone != null and teacherPhone != ''">teacher_phone = #{teacherPhone,jdbcType=CHAR}, </if>
+		<if test="true">is_full_teacher = #{fullTeacher,jdbcType=BIT}, </if>
+		</set>
+		where teacher_num = #{teacherNum,jdbcType=VARCHAR} 
+	</update>
+	<delete id="deleteTeacher" parameterType="java.lang.String">
+		delete from tb_teacher where teacher_num in
+		<foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+		        	#{item}
+		</foreach>
+	</delete>
+</mapper>

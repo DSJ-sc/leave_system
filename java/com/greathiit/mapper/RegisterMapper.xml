@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.greathiit.mapper.RegisterMapper">
+<cache eviction="FIFO" flushInterval="60000" size="512" readOnly="true" />
+ <select id="getFaculty" resultType="faculty">
+    select * from tb_faculty
+ </select>
+ <select id="getSpecialty" parameterType="string" resultType="specialty">
+    select * from tb_specialty where faculty != '' <if test="_parameter != '' and _parameter != null"> and  faculty = #{_parameter} </if>
+   
+ </select>
+ <insert id="insterWaitTeacher" parameterType="teacher" >
+        insert into tb_wait_teacher (teacher_num, teacher_uname, teacher_password,teacher_name, teacher_sex, teacher_faculty,teacher_specialty, teacher_post, teacher_phone,is_full_teacher)
+        values 
+            (#{teacherNum,jdbcType=VARCHAR}, #{teacherUname,jdbcType=VARCHAR}, 
+            #{teacherPassword,jdbcType=VARCHAR},#{teacherName,jdbcType=VARCHAR}, 
+            #{teacherSex,jdbcType=CHAR},#{teacherFaculty,jdbcType=CHAR},
+            #{teacherSpecialty,jdbcType=VARCHAR}, #{teacherPost,jdbcType=VARCHAR}, 
+            #{teacherPhone,jdbcType=CHAR},#{fullTeacher,jdbcType=BIT})      
+ </insert>
+ <delete id="delTeacher" parameterType="string">
+    delete from tb_wait_teacher where teacher_num = #{teacherNum}
+
+ </delete>   
+    <select id="queryWaitTeacher"  resultMap="entityMapper.Teacher">
+        select teacher_num, teacher_uname, teacher_password, teacher_name, teacher_sex,  teacher_faculty,teacher_specialty, teacher_post, teacher_phone, is_full_teacher 
+        from tb_wait_teacher
+    </select>
+</mapper>

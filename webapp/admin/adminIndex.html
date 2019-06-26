@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>主页</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="Cache-Control" content="no-siteapp" />
+		<link rel="icon" href="../assets/i/favicon.ico">
+		<link rel="stylesheet" href="../assets/css/amazeui.min.css" />
+		<link rel="stylesheet" href="../assets/css/admin.css">
+		<link rel="stylesheet" href="../assets/css/app.css">
+		<link rel="stylesheet" href="../assets/css/ace.min.css">
+		<link rel="stylesheet" href="../assets/css/bootstrap.css">
+	<style type="text/css">
+		.page-content a {
+		display:inline-block;
+		width: 40%;
+		height: 100px;
+		text-align: center;
+		margin: 20px;
+		padding-top: 25px;
+		font-size: 40px;
+		font-family: '华文行楷';
+		border: 1px solid black; 
+		border-radius: 10px;
+		background-color: LightBLue;
+		text-decoration: none;
+		color: black;
+		}
+		.pai{
+			text-align: center;
+		}
+	</style>
+	</head>
+
+	<body data-type="index" style="background-color: #E4E6E9;">
+
+
+		<header class="am-topbar am-topbar-inverse admin-header">
+			<div class="am-topbar-brand am-sans-serif">
+				<img  src="../assets/img/logo.png"  width="70px" height="71px"/>
+				哈尔滨信息工程学院考勤系统管理端
+			</div>
+
+
+			<button class="am-topbar-btn am-topbar-toggle am-btn am-btn-xl am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span
+				 class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+
+			<div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+
+				<ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">
+		
+						<li class="am-dropdown">
+						<a class="am-dropdown-toggle tpl-header-list-link" href="adminCancellation">
+							<span class="am-icon-power-off"></span> 退出 
+						</a>
+					</li>
+			</ul>
+			</div>
+		</header>
+		<div class="tpl-page-container tpl-page-header-fixed">
+			<div id="page-content" class="page-content">
+			<div style="margin:  0 auto;">
+				<div class="pai">
+					<a href="manageFaculty.html">学院管理</a>
+					<a href="manageCourse.html">课程名管理</a>
+				</div>
+				<div class="pai">
+					<a href="manageSpecialty.html">专业管理</a>
+					<a href="manageSyllabus.html">课程表管理</a>
+				</div>
+				<div class="pai">
+					<a href="manageClass.html">班级管理</a>
+					<a href="manageTeacher.html">教师管理</a>
+				</div>
+			</div>
+		</div>
+		
+		</div>
+		<script src="../assets/js/jquery3.3.1.js"></script>
+		<script src="../assets/js/amazeui.js"></script>			
+	</body>
+
+</html>

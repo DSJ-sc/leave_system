@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="entityMapper">
+	<sql id="student">
+		s.student_sno,s.student_name,s.student_sex,s.student_age,s.student_photo,s.student_id,s.student_faculty,
+		s.student_specialty,s.student_class,s.student_phone,s.student_apartment
+	</sql>
+	<sql id="studentLeave">
+		student_leave_num,l_student_sno ,l_class,(case leave_type when 0 then "长期假"  when 1 then "事假" when 2 then "病假"  when 3 then "晚假"  end) leave_type,
+		leave_apply_time,leave_reason,leave_prove,leave_start_time,leave_end_time,parent_phone,leave_agreement,is_one,one_time,
+		one_remarks,is_two,two_time,two_remarks,is_three, ifnull(three_time,"待审批")  three_time,three_remarks
+	</sql>
+	<sql id="teacherLeave">
+		teacher_leave_num,teacher_num,(case leave_type when 0 then "事假"  when 1 then "病假" end) leave_type,leave_reason,leave_prove,leave_start_time,leave_end_time,repair_time,ifnull(repair_place,"待定") repair_place,is_one,one_time,one_remarks,is_two,ifnull(two_time,"待审批") two_time,two_remarks
+	</sql>
+    <resultMap id="Student"  type="com.greathiit.entity.Student" >
+        <id column="student_sno" property="studentSno" jdbcType="VARCHAR" />
+        <result column="student_name" property="studentName" jdbcType="VARCHAR" />
+        <result column="student_sex" property="studentSex" jdbcType="CHAR" />
+        <result column="student_age" property="studentAge" jdbcType="INTEGER" />
+        <result column="student_photo" property="studentPhoto" jdbcType="VARCHAR" />
+        <result column="student_id" property="studentId" jdbcType="CHAR" />
+        <result column="student_faculty" property="studentFaculty" jdbcType="VARCHAR" />
+        <result column="student_specialty" property="studentSpecialty" jdbcType="VARCHAR" />
+        <result column="student_phone" property="studentPhone" jdbcType="CHAR" />
+        <result column="student_apartment" property="studentApartment" jdbcType="VARCHAR" />
+        <association property="studentClass"  javaType="com.greathiit.entity.StudentClass">
+        	<id property="className" column="class_name"/>
+        	<result property="classHeadTeacher" column="class_head_teacher"/>
+        	<result property="classGuideTeacher" column="guide_teacher"/>
+        	<result property="specialtyTeacherNum" column="specialty_teacher_num"/>
+        	<result property="specialtyName" column="specialty_name"/>
+        	<result property="specialtyId" column="specialty_id"/>
+        	<result property="facultyTeacherNum" column="faculty_teacher_num"/>
+        	<result property="facultyName" column="faculty_id"/>
+        	<result property="classStudentNum" column="class_student_num"/>
+        </association>
+        <collection property="studentLeave" ofType="com.greathiit.entity.StudentLeaveInfo">
+            <id column="student_leave_id" property="studentLeaveId" jdbcType="INTEGER" />
+            <result column="student_leave_num" property="studentLeaveNum"/>
+	        <result column="l_student_sno" property="studentSno" jdbcType="VARCHAR" />
+	        <result column="l_class" property="className" jdbcType="VARCHAR" />
+	        <result column="l_faculty" property="faculty"/>
+	        <result column="l_specialty" property="l_specialty"/>
+	        <result column="leave_type" property="leaveType" jdbcType="CHAR" />
+	        <result column="leave_apply_time" property="leaveApplyTime" jdbcType="VARCHAR" />
+	        <result column="leave_reason" property="leaveReason" jdbcType="LONGVARCHAR" />
+	        <result column="leave_prove" property="leaveProve" jdbcType="VARCHAR" />
+	        <result column="leave_start_time" property="leaveStartTime" jdbcType="VARCHAR" />
+	        <result column="leave_end_time" property="leaveEndTime" jdbcType="VARCHAR" />
+	        <result column="parent_phone" property="parentPhone" jdbcType="CHAR" />
+	        <result column="leave_agreement" property="leaveAgreement" jdbcType="VARCHAR" />
+	        <result column="is_one" property="leaveApprovalOne" jdbcType="CHAR"  />
+	        <result column="one_time" property="leaveApprovalOneTime" jdbcType="VARCHAR" />
+	        <result column="one_remarks" property="leaveApprovalOneRemarks" jdbcType="VARCHAR" />
+	        <result column="is_two" property="leaveApprovalTwo" jdbcType="CHAR"  />
+	        <result column="two_time" property="leaveApprovalTwoTime" jdbcType="VARCHAR" />
+	        <result column="two_remarks" property="leaveApprovalTwoRemarks" jdbcType="VARCHAR" />
+	        <result column="is_three" property="leaveApprovalThree" jdbcType="CHAR"  />
+	        <result column="three_time" property="leaveApprovalThreeTime" jdbcType="VARCHAR" />
+	        <result column="three_remarks" property="leaveApprovalThreeRemarks" jdbcType="VARCHAR" />
+        </collection>
+    </resultMap>
+    <resultMap type="com.greathiit.entity.StudentLeaveInfo" id="studentLeave">
+        <id column="student_leave_id" property="studentLeaveId" jdbcType="INTEGER" />
+            <result column="l_student_sno" property="studentSno" jdbcType="VARCHAR" />
+            <result column="l_class" property="className" jdbcType="VARCHAR" />
+            <result column="l_name" property="studentName"/>
+            <result column="l_faculty" property="faculty"/>
+	        <result column="l_specialty" property="specialty"/>
+            <result column="leave_type" property="leaveType" jdbcType="CHAR" />
+            <result column="leave_apply_time" property="leaveApplyTime" jdbcType="VARCHAR" />
+            <result column="leave_reason" property="leaveReason" jdbcType="LONGVARCHAR" />
+            <result column="leave_prove" property="leaveProve" jdbcType="VARCHAR" />
+            <result column="leave_start_time" property="leaveStartTime" jdbcType="VARCHAR" />
+            <result column="leave_end_time" property="leaveEndTime" jdbcType="VARCHAR" />
+            <result column="parent_phone" property="parentPhone" jdbcType="CHAR" />
+            <result column="leave_agreement" property="leaveAgreement" jdbcType="VARCHAR" />
+            <result column="is_one" property="leaveApprovalOne" jdbcType="CHAR"/>
+            <result column="one_time" property="leaveApprovalOneTime" jdbcType="VARCHAR" />
+            <result column="one_remarks" property="leaveApprovalOneRemarks" jdbcType="VARCHAR" />
+            <result column="is_two" property="leaveApprovalTwo" jdbcType="CHAR"/>
+            <result column="two_time" property="leaveApprovalTwoTime" jdbcType="VARCHAR" />
+            <result column="two_remarks" property="leaveApprovalTwoRemarks" jdbcType="VARCHAR" />
+            <result column="is_three" property="leaveApprovalThree" jdbcType="CHAR"/>
+            <result column="three_time" property="leaveApprovalThreeTime" jdbcType="VARCHAR" />
+            <result column="three_remarks" property="leaveApprovalThreeRemarks" jdbcType="VARCHAR" />
+    </resultMap>
+    <resultMap type="com.greathiit.entity.Teacher" id="Teacher">
+		<id jdbcType="VARCHAR" property="teacherNum" column="teacher_num"/>
+		<result jdbcType="CHAR" property="teacherUname" column="teacher_uname"/>
+		<result jdbcType="CHAR" property="teacherPassword" column="teacher_password"/>
+		<result jdbcType="VARCHAR" property="teacherName" column="teacher_name"/>
+		<result jdbcType="CHAR" property="teacherSex" column="teacher_sex"/>
+		<result jdbcType="INTEGER" property="teacherAge" column="teacher_age"/>
+		<result jdbcType="CHAR" property="teacherFaculty" column="teacher_faculty"/>
+		<result jdbcType="VARCHAR" property="teacherSpecialty" column="teacher_specialty"/>
+		<result jdbcType="VARCHAR" property="specialtyTeacherNum" column="specialty_teacher_num"/>
+		<result jdbcType="VARCHAR" property="facultyTeacherNum" column="faculty_teacher_num"/>
+		<result jdbcType="VARCHAR" property="teacherPost" column="teacher_post"/>
+		<result jdbcType="CHAR" property="teacherPhone" column="teacher_phone"/>
+		<result jdbcType="BIT" property="fullTeacher" column="is_full_teacher"/>
+		<collection property="teacherLeaveInfo" ofType="com.greathiit.entity.TeacherLeaveInfo" >
+			 <id column="teacher_leave_id" property="teacherLeaveId" jdbcType="INTEGER" />
+	        <result column="teacher_leave_num" property="teacherLeaveNum" jdbcType="VARCHAR" />
+	        <result column="teacher_name" property="teacherName" jdbcType="VARCHAR" />
+	        <result column="teacher_specialty" property="teacherSpecialty" jdbcType="VARCHAR" />
+	        <result column="leave_apply_time" property="leaveApplyTime" jdbcType="VARCHAR" />
+	        <result column="class_name" property="className" jdbcType="VARCHAR" />
+	        <result column="course_name" property="courseName" jdbcType="VARCHAR" />
+	        <result column="old_schoolweek" property="oldSchoolweek" jdbcType="INTEGER" />
+	        <result column="old_day" property="oldDay" jdbcType="VARCHAR" />
+	        <result column="old_week" property="oldWeek" jdbcType="CHAR" />
+	        <result column="old_time" property="oldTime" jdbcType="CHAR" />
+	        <result column="old_class_room" property="oldClassRoom" jdbcType="VARCHAR" />
+	        <result column="new_schoolweek" property="newSchoolweek" jdbcType="INTEGER" />
+	        <result column="new_day" property="newDay" jdbcType="VARCHAR" />
+	        <result column="new_week" property="newWeek" jdbcType="CHAR" />
+	        <result column="new_time" property="newTime" jdbcType="CHAR" />
+	        <result column="new_class_room" property="newClassRoom" jdbcType="VARCHAR" />
+	        <result column="leave_type" property="leaveType" jdbcType="VARCHAR" />
+	        <result column="replace_teacher" property="replaceTeacher" jdbcType="VARCHAR" />
+	        <result column="leave_reason" property="leaveReason" jdbcType="VARCHAR" />
+	        <result column="specific_reason" property="specificReason" jdbcType="LONGVARCHAR" />
+	        <result column="is_one" property="leaveApprovalOne" jdbcType="CHAR" />
+	        <result column="one_time" property="leaveApprovalOneTime" jdbcType="VARCHAR" />
+	        <result column="is_two" property="leaveApprovalTwo" jdbcType="CHAR" />
+	        <result column="two_time" property="leaveApprovalTwoTime" jdbcType="VARCHAR" />
+		</collection>
+	</resultMap>
+	    <resultMap id="TeacherLeaveInfo" type="com.greathiit.entity.TeacherLeaveInfo" >
+	         <id column="teacher_leave_id" property="teacherLeaveId" jdbcType="INTEGER" />
+	        <result column="teacher_leave_num" property="teacherLeaveNum" jdbcType="VARCHAR" />
+	        <result column="teacher_name" property="teacherName" jdbcType="VARCHAR" />
+	        <result column="teacher_specialty" property="teacherSpecialty" jdbcType="VARCHAR" />
+	        <result column="leave_apply_time" property="leaveApplyTime" jdbcType="VARCHAR" />
+	        <result column="class_name" property="className" jdbcType="VARCHAR" />
+	        <result column="course_name" property="courseName" jdbcType="VARCHAR" />
+	        <result column="old_schoolweek" property="oldSchoolweek" jdbcType="INTEGER" />
+	        <result column="old_day" property="oldDay" jdbcType="VARCHAR" />
+	        <result column="old_week" property="oldWeek" jdbcType="CHAR" />
+	        <result column="old_time" property="oldTime" jdbcType="CHAR" />
+	        <result column="old_class_room" property="oldClassRoom" jdbcType="VARCHAR" />
+	        <result column="new_schoolweek" property="newSchoolweek" jdbcType="INTEGER" />
+	        <result column="new_day" property="newDay" jdbcType="VARCHAR" />
+	        <result column="new_week" property="newWeek" jdbcType="CHAR" />
+	        <result column="new_time" property="newTime" jdbcType="CHAR" />
+	        <result column="new_class_room" property="newClassRoom" jdbcType="VARCHAR" />
+	        <result column="leave_type" property="leaveType" jdbcType="VARCHAR" />
+	        <result column="replace_teacher" property="replaceTeacher" jdbcType="VARCHAR" />
+	        <result column="leave_reason" property="leaveReason" jdbcType="VARCHAR" />
+	        <result column="specific_reason" property="specificReason" jdbcType="LONGVARCHAR" />
+	        <result column="is_one" property="leaveApprovalOne" jdbcType="CHAR" />
+	        <result column="one_time" property="leaveApprovalOneTime" jdbcType="VARCHAR" />
+	        <result column="is_two" property="leaveApprovalTwo" jdbcType="CHAR" />
+	        <result column="two_time" property="leaveApprovalTwoTime" jdbcType="VARCHAR" />
+    </resultMap>
+	<resultMap type="com.greathiit.entity.StudentSituationAnalysis" id="ClassSituationAnalysis">
+	  	<id column="student_sno" property="studentSno" jdbcType="VARCHAR" />
+	  	<result column="l_class" property="className" />
+        <result column="student_name" property="studentName" jdbcType="VARCHAR" />
+        <result column="student_sex" property="studentSex" jdbcType="CHAR" />
+        	<collection property="leaveData" ofType="com.greathiit.entity.LeaveData">
+        		<id property="leaveTime" column="leave_time"/>
+        		<result property="sumLeaveNum" column="sum_leave_num"/>
+        		<result property="personaLeaveNum" column="persona_leave_num"/>
+        		<result property="sickLeaveNum" column="sick_leave_num"/>
+        		<result property="nightLeaveNum" column="night_leave_num"/>
+        		<result property="passNum" column="pass_num"/>
+        		<result property="refuseNum" column="refuse_num"/>
+        	</collection>
+	</resultMap>
+ <resultMap type="com.greathiit.entity.SpecialtySituationAnalysis" id="SpecialtySituationAnalysis">
+ 	 <id property="specialtyName" column="l_class"/>
+ 	<collection property="leaveData" ofType="com.greathiit.entity.LeaveData">
+        		<id property="leaveTime" column="leave_time"/>
+        		<result property="sumLeaveNum" column="sum_leave_num"/>
+        		<result property="personaLeaveNum" column="persona_leave_num"/>
+        		<result property="sickLeaveNum" column="sick_leave_num"/>
+        		<result property="nightLeaveNum" column="night_leave_num"/>
+        		<result property="passNum" column="pass_num"/>
+        		<result property="refuseNum" column="refuse_num"/>
+      </collection>
+ </resultMap>
+ <resultMap type="com.greathiit.entity.ClassStudents" id="ClassStudents">
+ 	<id property="className" column="class_name"/>
+ 	<collection property="studentName" ofType="java.lang.String">
+ 		<id column="student_name" />
+ 	</collection>
+ 	<collection property="studentSno" ofType="java.lang.String">
+ 		<id column="student_sno" />
+ 	</collection>
+ </resultMap>
+ <resultMap type="com.greathiit.entity.SpecialtyClass" id="SpecialtyClass">
+ 	<id property="specialtyId" column="specialty_id"/>
+ 	<result property="specialtyName" column="specialty_name"/>
+ 	<collection property="className" ofType="java.lang.String">
+ 		<id column="class_name" />
+ 	</collection>
+ </resultMap>
+</mapper>

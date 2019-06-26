@@ -1,0 +1,357 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>课程表管理</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="renderer" content="webkit">
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="icon" href="../assets/i/favicon.ico">
+<link rel="stylesheet" href="../assets/css/amazeui.min.css" />
+<link rel="stylesheet" href="../assets/css/admin.css">
+<link rel="stylesheet" href="../assets/css/app.css">
+<link rel="stylesheet" href="../assets/css/ace.min.css">
+<link rel="stylesheet" href="../assets/css/amazeui.datetimepicker.css" />
+<style type="text/css">
+ .insert{
+ 	display: none;
+ }
+ .insertInput{
+ 	width: 100%;
+ 	text-align: center;
+ }
+ .update{
+ 	display: none;
+ }
+</style>
+	</head>
+
+	<body data-type="index" style="background-color: #E4E6E9;">
+
+
+		<header class="am-topbar am-topbar-inverse admin-header">
+			<div class="am-topbar-brand am-sans-serif">
+				<img  src="../assets/img/logo.png"  width="70px" height="71px"/>
+				哈尔滨信息工程学院考勤系统管理端
+			</div>
+
+
+			<button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span
+				 class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+
+			<div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+
+				<ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">
+							
+					<li class="am-dropdown" data-am-dropdown data-am-dropdown-toggle>
+						<a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
+							<span class="am-icon-edit"></span> 学院管理 
+						</a>
+						<ul class="am-dropdown-content tpl-dropdown-content">
+							<li>
+								<a href="manageClass.html" class="tpl-dropdown-content-progress">
+									<span class="task">
+										<i class="am-icon-puzzle-piece"> </i>
+										<span class="desc">班级管理</span>
+									</span>
+								</a>
+							</li>
+							<li>
+								<a href="manageSpecialty.html" class="tpl-dropdown-content-progress">
+									<span class="task">
+										<i class="am-icon-puzzle-piece"></i>
+										<span class="desc">专业管理</span>
+									</span>
+								</a>
+							</li>
+							<li>
+								<a href="manageFaculty.html" class="tpl-dropdown-content-progress">
+									<span class="task">
+										<i class="am-icon-puzzle-piece"></i>
+										<span class="desc">学院管理</span>
+									</span>
+								</a>
+							</li>
+						</ul>
+					</li>
+					
+					<li class="am-dropdown" data-am-dropdown data-am-dropdown-toggle>
+						<a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
+							<span class="am-icon-edit"></span> 课程管理 
+						</a>
+						<ul class="am-dropdown-content tpl-dropdown-content">
+							<li>
+								<a href="manageCourse.html" class="tpl-dropdown-content-progress">
+									<span class="task">
+										<i class="am-icon-puzzle-piece"> </i>
+										<span class="desc">课程名管理</span>
+									</span>
+								</a>
+							</li>
+						</ul>
+					</li>
+					<li class="am-dropdown" data-am-dropdown data-am-dropdown-toggle>
+						<a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
+							<span class="am-icon-edit"></span> 教师管理 
+						</a>
+						<ul class="am-dropdown-content tpl-dropdown-content">
+							<li>
+								<a href="manageTeacher.html" class="tpl-dropdown-content-progress">
+									<span class="task">
+										<i class="am-icon-puzzle-piece"></i>
+										<span class="desc">教师信息管理</span>
+									</span>
+								</a>
+							</li>
+
+						</ul>
+					</li>
+					<li class="am-dropdown">
+						<a class="am-dropdown-toggle tpl-header-list-link" href="adminCancellation">
+							<span class="am-icon-power-off"></span> 退出 
+						</a>
+					</li>
+			</ul>
+			</div>
+		</header>
+		<div class="tpl-page-container tpl-page-header-fixed">
+			<div id="page-content" class="page-content" >
+				<div class="visible-lg-block">
+				<div class="tpl-portlet-components" style="overflow: visible;">
+					<div class="portlet-title center">
+							<form >
+							<input  class="select sclassName" type="text" placeholder="请输入班级名">
+							<input  class="select sclassroom" type="text" placeholder="请输入教室">
+							<input  class="select steacher" type="text" placeholder="请输入教师">
+							<input  class="select scourseName" type="text" placeholder="请输入课程名">
+							<button class="am-btn-secondary am-btn-default" onclick="select()" type="button">查询</button>
+							<button class="am-btn-secondary am-btn-default" onclick="insert()" type="button">添加</button>
+							</form>
+					</div>
+					<div class="tpl-block">
+
+						<div class="am-g">
+							<div class="am-u-sm-12 center">					
+								<table class="am-table am-table-striped am-table-hover table-main select">
+									<thead>
+										<tr>
+											<th class=" center" width="5%"> <input id="checkbox" type="checkbox"> </th>
+											<th class=" center" >教室</th>
+											<th class=" center" >课程</th>
+											<th class=" center" >班级</th>
+											<th class=" center" >教师</th>
+											<th class=" center" >开始时间</th>
+											<th class=" center" >结束时间</th>
+											<th class=" center" >上课时间</th>
+											<th class=" center" >操作</th>
+										</tr>
+									</thead>
+								<tbody align="center" class="selectBody">
+							
+								</tbody>
+								
+								</table>
+								<input class="am-btn-secondary am-btn-lg" type="button" onclick="deleteSyllabus()" value="删除选中上课信息">
+								<form>
+									<table class="am-table  table-main insert">
+									<thead>
+										<tr>
+											<th class=" center" >教室</th>
+											<th class=" center" >课程</th>
+											<th class=" center" >班级</th>
+											<th class=" center" >教师</th>
+											<th class=" center" >开始时间</th>
+											<th class=" center" >结束时间</th>
+											<th class=" center" colspan="2" >上课时间</th>
+										</tr>
+									</thead>
+								<tbody  class="center insertTbody ">
+							<tr>
+										<td> <input type="text" style="border-radius: 4px!important;" class="ClassRoom  insertInput" placeholder="请输入教室"> </td>
+										<td> 
+											<select class="Course"  data-am-selected="{searchBox: 1,maxHeight:100}">
+												
+											</select> 
+										</td>
+										<td> 
+											<select class="ClassName" multiple data-am-selected="{searchBox: 1,maxHeight:150}">
+												
+											</select> 
+										</td>
+										<td>
+											<select class="Teacher"  data-am-selected="{searchBox: 1,btnWidth: '100%',maxHeight:100}">
+												
+											</select> 
+										</td>
+										<td><input type="text" readonly="readonly" style="border-radius: 4px!important;" class="StartTime insertInput syllabusTime"></td>
+										<td><input type="text" readonly="readonly" style="border-radius: 4px!important;" class="EndTime insertInput syllabusTime"></td>
+										<td>
+											<select class="Week"  data-am-selected="{btnWidth: '100%'}">
+											</select>
+										</td>
+										<td>
+											<select class="Day"  data-am-selected="{btnWidth: '100%'}">
+											</select>
+										</td>
+									</tr><tr>
+										<td> <input type="text" style="border-radius: 4px!important;" class="ClassRoom  insertInput" placeholder="请输入教室"> </td>
+										<td> 
+											<select class="Course"  data-am-selected="{searchBox: 1,maxHeight:100}">
+												
+											</select> 
+										</td>
+										<td> 
+											<select class="ClassName" multiple data-am-selected="{searchBox: 1,maxHeight:150}">
+												
+											</select> 
+										</td>
+										<td>
+											<select class="Teacher"  data-am-selected="{searchBox: 1,btnWidth: '100%',maxHeight:100}">
+												
+											</select> 
+										</td>
+										<td><input type="text" readonly="readonly" style="border-radius: 4px!important;" class="StartTime insertInput syllabusTime"></td>
+										<td><input type="text" readonly="readonly" style="border-radius: 4px!important;" class="EndTime insertInput syllabusTime"></td>
+										<td>
+											<select class="Week"  data-am-selected="{btnWidth: '100%'}">
+											</select>
+										</td>
+										<td>
+											<select class="Day"  data-am-selected="{btnWidth: '100%'}">
+											</select>
+										</td>
+									</tr><tr>
+										<td> <input type="text" style="border-radius: 4px!important;" class="ClassRoom  insertInput" placeholder="请输入教室"> </td>
+										<td> 
+											<select class="Course"  data-am-selected="{searchBox: 1,maxHeight:100}">
+												
+											</select> 
+										</td>
+										<td> 
+											<select class="ClassName" multiple data-am-selected="{searchBox: 1,maxHeight:150}">
+												
+											</select> 
+										</td>
+										<td>
+											<select class="Teacher"  data-am-selected="{searchBox: 1,btnWidth: '100%',maxHeight:100}">
+												
+											</select> 
+										</td>
+										<td><input type="text" readonly="readonly" style="border-radius: 4px!important;" class="StartTime insertInput syllabusTime"></td>
+										<td><input type="text" readonly="readonly" style="border-radius: 4px!important;" class="EndTime insertInput syllabusTime"></td>
+										<td>
+											<select class="Week"  data-am-selected="{btnWidth: '100%'}">
+											</select>
+										</td>
+										<td>
+											<select class="Day"  data-am-selected="{btnWidth: '100%'}">
+											</select>
+										</td>
+									</tr><tr>
+										<td> <input type="text" style="border-radius: 4px!important;" class="ClassRoom  insertInput" placeholder="请输入教室"> </td>
+										<td> 
+											<select class="Course"  data-am-selected="{searchBox: 1,maxHeight:100}">
+												
+											</select> 
+										</td>
+										<td> 
+											<select class="ClassName" multiple data-am-selected="{searchBox: 1,maxHeight:150}">
+												
+											</select> 
+										</td>
+										<td>
+											<select class="Teacher"  data-am-selected="{searchBox: 1,btnWidth: '100%',maxHeight:100}">
+												
+											</select> 
+										</td>
+										<td><input type="text" readonly="readonly" style="border-radius: 4px!important;" class="StartTime insertInput syllabusTime"></td>
+										<td><input type="text" readonly="readonly" style="border-radius: 4px!important;" class="EndTime insertInput syllabusTime"></td>
+										<td>
+											<select class="Week"  data-am-selected="{btnWidth: '100%'}">
+		
+											</select>
+										</td>
+										<td>
+											<select class="Day"  data-am-selected="{btnWidth: '100%'}">
+											</select>
+										</td>
+									</tr>
+								</tbody>
+								</table>
+								</form>
+								<div>
+									<p onclick="insertSyllabus()" class="am-btn insert am-icon-plus am-btn-success am-btn-sm am-round"></p>
+								</div>
+								<form class="up">
+									<table class="am-table table-main update" >
+										<thead>
+										<tr>
+											<th class=" center" >教室</th>
+											<th class=" center" >课程</th>
+											<th class=" center" >班级</th>
+											<th class=" center" >教师</th>
+											<th class=" center" >开始时间</th>
+											<th class=" center" >结束时间</th>
+											<th class=" center" colspan="2" >上课时间</th>
+										</tr>
+									</thead>
+									<tbody>
+									<tr>
+										<td> 
+											<input type="hidden" class="teachId">
+											<input type="text" onfocus="this.blur();" style="border-radius: 4px!important;" class="classroom  insertInput"> </td>
+										<td> 
+											<input type="text"  onfocus="this.blur();" class="course insertInput" style="border-radius: 4px!important;" >
+										</td>
+										<td> 
+											<input type="text" onfocus="this.blur();" class="className insertInput"  style="border-radius: 4px!important;" >
+										</td>
+										<td>
+											<input type="text"  onfocus="this.blur();" class=" teacher insertInput" style="border-radius: 4px!important;" >
+										</td>
+										<td><input type="text" readonly="readonly" style="border-radius: 4px!important;" class="startTime insertInput syllabusTime"></td>
+										<td><input type="text" readonly="readonly" style="border-radius: 4px!important;" class="endTime insertInput syllabusTime"></td>
+										<td>
+											<select class="week"  >
+												<option value="一">星期一</option>
+												<option value="二">星期二</option>
+						 						<option value="三">星期三</option>
+						 						<option value="四">星期四</option>
+						 						<option value="五">星期五</option>
+						  						<option value="六">星期六</option>	
+						  						<option value="日">星期日</option>
+											</select>
+										</td>
+										<td>
+											<select class="day" >
+												<option value="1">1-2节</option>
+					  							<option value="2">3-4节</option>	
+					  							<option value="3">5-6节</option>
+					 							<option value="4">7-8节</option>	  
+					 							<option value="5">9-10节</option>
+											</select>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="8"> <p onclick="update()"  class="am-btn-success am-btn-sm am-round am-btn" >修改</p></td>
+									</tr>
+									</tbody>
+							</table>
+							</form>
+							</div>
+						 </div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		</div>
+		<script src="../assets/js/jquery3.3.1.js"></script>
+		<script src="../assets/js/amazeui.js"></script>
+		<script src="../assets/js/amazeui.datetimepicker.js"></script>
+		<script src="../assets/js/date.js"></script>		
+		<script src="../assets/js/manageSyllabus.js"></script>  	
+	</body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>学生请假信息统计</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="renderer" content="webkit">
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="icon" href="../assets/i/favicon.ico">
+<link rel="apple-touch-icon-precomposed"
+	href="assets/i/app-icon72x72@2x.png">
+<meta name="apple-mobile-web-app-title" content="Amaze UI" />
+<link rel="stylesheet" href="../assets/css/amazeui.min.css" />
+<link rel="stylesheet" href="../assets/css/admin.css">
+<link rel="stylesheet" href="../assets/css/app.css">
+<link rel="stylesheet" href="../assets/css/ace.min.css">
+<link rel="stylesheet" href="../assets/css/bootstrap.css">
+<link rel="stylesheet" href="../assets/css/amazeui.datetimepicker.css" />
+<link rel="stylesheet" href="../assets/css/student-statisticsInfo.css" />
+</head>
+
+<body style="background-color: #E4E6E9;">
+<header class="am-topbar am-topbar-inverse admin-header">
+			<div class="am-topbar-brand am-sans-serif">
+				<img src="../assets/img/logo.png" width="70px" height="71px">
+				哈尔滨信息工程学院
+			</div>
+
+
+			<button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only am-collapsed" data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+
+			<div class="am-topbar-collapse am-collapse" id="topbar-collapse" style="height: 20px;">
+
+				<ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">
+					<li class="am-dropdown" data-am-dropdown data-am-dropdown-toggle>
+						<a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
+							<span class="am-icon-user"></span> 点名 
+						</a>
+						<ul class="am-dropdown-content tpl-dropdown-content">
+							 <li>
+                                <a href="teacherGetStudent.html" class="tpl-dropdown-content-progress">
+                                    <span class="task">
+                                        <i class="am-icon-users"> </i>
+                                        <span class="desc">查看请假学生</span>
+                                    </span>
+                                </a>
+                            </li>
+						</ul>
+					</li>
+					<li class="am-dropdown" data-am-dropdown="" data-am-dropdown-toggle="">
+						<a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
+							<span class="am-icon-edit"></span> 调课 <span id="sunnum" class="am-badge tpl-badge-success am-round"></span>
+						</a>
+						<ul class="am-dropdown-content tpl-dropdown-content">
+							<li>
+								<a href="teacherAddLeave.html" class="tpl-dropdown-content-progress">
+									<span class="task">
+										<i class="am-icon-plus-circle"> </i>
+										<span class="desc">添加调课请求</span>
+									</span>
+								</a>
+							</li>
+							<li>
+								<a href="teacherLeaveInfo.html" class="tpl-dropdown-content-progress">
+									<span class="task">
+										<i class="am-icon-search-plus"></i>
+										<span class="desc">查看调课请求</span>
+										<span id="cheaknum" class="am-badge tpl-badge-warning am-round" style="margin-left: 80px;"></span>
+									</span>
+								</a>
+							</li>
+						</ul>
+					</li>
+						<li class="am-dropdown" data-am-dropdown="" data-am-dropdown-toggle="">
+						<a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
+							<span class="am-icon-bell-o"></span> 消息 <span class="am-badge tpl-badge-success am-round newsSum"></span>
+						</a>
+						<ul class="am-dropdown-content tpl-dropdown-content" style="padding: 0;text-align: center;">	
+							<li class="tpl-dropdown-content-external" style="padding: 4px 4px 4px 4px">
+								
+								 <div onclick="location='approvalStudent.html'" style="cursor:pointer;background-color:#E4E6E9;color: black;">
+								 <b>您有 <span class="tpl-color-success studentLeaveSum">0</span> 条学生请假请求待处理</b>
+								
+								 </div>
+								<div style="background-color: #F5F5F5;">
+								<ul id="studentLeaveInfo" style="margin: 0; font-size:smaller; color: black;">
+							
+								</ul>
+								</div>
+							</li>				
+						</ul>
+					</li>
+					<li class="am-dropdown" data-am-dropdown="" data-am-dropdown-toggle="">
+						<a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
+							<span class="am-icon-pie-chart"></span> 请假信息统计 
+						</a>
+						<ul class="am-dropdown-content tpl-dropdown-content">
+							<li class="tpl-dropdown-list-bdbc"><a href="studentLeaveStatisticsInfo.html" class="tpl-dropdown-list-fl"><span class="am-icon-area-chart"></span>
+									查询本班级的请假信息</a>
+							</li>
+							<li class="tpl-dropdown-list-bdbc"><a href="javascript:;" class="tpl-dropdown-list-fl"><span class="am-icon-area-chart"></span>
+									查询其他班级的请假信息</a>
+							</li>
+						</ul>
+					</li>
+					<li class="am-dropdown" data-am-dropdown="" data-am-dropdown-toggle="">
+						<a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
+							<span class="am-icon-user-secret"> </span>
+						</a>
+						<ul class="am-dropdown-content">
+							<li><a class="tpl-dropdown-content-progress" href="../teacher/cancellation"><span class="am-icon-power-off"></span> 退出</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</header>
+	<div class="tpl-page-container tpl-page-header-fixed">
+        <div id="page-content" class="page-content">
+        
+                <div class="tpl-portlet-components">
+                    <div class="portlet-title">
+                        <div class="caption font-green bold">
+                            <span class="am-icon-code"></span> 请假统计信息
+                        </div>
+                        <div class="form-inline  input-group selects">
+                            <div class="form-group ">
+                                <select id="timeSelect" data-am-selected>
+                                    <option value="month">按月查询</option>
+                                    <option value="year">按年查询</option>
+                                </select>
+                            </div>
+                            <div class="form-group ">
+                                <select id="specialtyName" placeholder='请选择专业' data-am-selected="{searchBox: 1,maxHeight:100}" >
+                                </select>
+                            </div>
+                            <div class="form-group ">
+                                <select id="className" placeholder='请选择班级'  data-am-selected="{searchBox: 1,maxHeight:100}">
+                                </select>
+                            </div>  
+                            <div class="form-group ">
+                                    <input type="text"  id="monthTimeInput" placeholder="请选择查询月份"   readonly class="form-control"> 
+                                    <input type="text"  id="yearTimeInput" placeholder="请选择查询年份"   readonly class="form-control"> 
+                            </div>
+                            <button class="am-btn   am-btn-success btn-sm  am-icon-search"
+                                    id="computerSelectLeaveButton"  type="button"></button>
+                        </div>
+                    </div>
+                    <div id="echartsShow"></div>
+                    <div  style="text-align: center;">
+                        <a href="downloadSpecialtyLeave" type="button" class="am-btn am-btn-primary">下载</a>
+                    </div>
+                </div>
+        </div>
+    </div>
+	<script src="../assets/js/jquery3.3.1.js"></script>
+	<script src="../assets/js/amazeui.js"></script>
+	<script src="../assets/js/iscroll.js"></script>
+	<script src="../assets/js/echarts.min.js"></script>
+	<script src="../assets/js/jquery.websocket.js"></script>
+	<script src="../assets/js/showmessage.js"></script>
+	<script src="../assets/js/otherclassstatisticsinfo.js"></script>
+	<script src="../assets/js/amazeui.datetimepicker.js"></script>
+	<script src="../assets/js/date.js"></script>
+	<script src="../assets/js/statisticalchart.js"></script>
+</body>
+</html>

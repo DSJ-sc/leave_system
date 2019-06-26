@@ -1,0 +1,203 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>主页</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="renderer" content="webkit">
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="icon" href="../assets/i/favicon.ico">
+<link rel="stylesheet" href="../assets/css/amazeui.min.css" />
+<link rel="stylesheet" href="../assets/css/admin.css">
+<link rel="stylesheet" href="../assets/css/app.css">
+<link rel="stylesheet" href="../assets/css/ace.min.css">
+<link rel="stylesheet" href="../assets/css/bootstrap.css">
+<style type="text/css">
+    input{
+        text-align: center;
+    }
+</style>
+	</head>
+
+	<body data-type="index" style="background-color: #E4E6E9;">
+
+
+		<header class="am-topbar am-topbar-inverse admin-header">
+			<div class="am-topbar-brand am-sans-serif">
+				<img  src="../assets/img/logo.png"  width="70px" height="71px"/>
+				哈尔滨信息工程学院
+			</div>
+
+
+			<button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span
+				 class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+
+			<div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+
+				<ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">
+							
+					<li class="am-dropdown" data-am-dropdown data-am-dropdown-toggle>
+						<a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
+							<span class="am-icon-edit"></span> 请假 
+						</a>
+						<ul class="am-dropdown-content tpl-dropdown-content">
+							<li>
+								<a href="studentaddleave.html" class="tpl-dropdown-content-progress">
+									<span class="task">
+										<i class="am-icon-plus-circle"> </i>
+										<span class="desc">添加请假请求</span>
+									</span>
+								</a>
+							</li>
+							<li>
+								<a href="studentLeaveInfo.html" class="tpl-dropdown-content-progress">
+									<span class="task">
+										<i class="am-icon-search-plus"></i>
+										<span class="desc">查看请假请求</span>
+									</span>
+								</a>
+							</li>
+
+						</ul>
+					</li>
+					<li class="am-dropdown" data-am-dropdown data-am-dropdown-toggle>
+						<a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
+						<span class="am-icon-user"> </span>
+						</a>
+						<ul class="am-dropdown-content">
+							<li><a class="tpl-dropdown-content-progress" href="#"><span class="am-icon-bell-o"></span> 资料</a></li>
+							<li><a class="tpl-dropdown-content-progress" href="cancellation"><span class="am-icon-power-off"></span> 退出</a></li>
+						</ul>
+					</li>
+			</ul>
+			</div>
+		</header>
+		<div class="tpl-page-container tpl-page-header-fixed">
+			<div id="page-content" class="page-content">
+				<div class="row am-text-center width-80 col-xs-offset-1">
+					<img class="img-rounded photo" />
+			   <hr />
+				<div class=" profile-user-info-striped profile-users">
+					<div class="profile-info-row">
+						<div class="profile-info-name"> 姓名 </div>
+
+						<div class="profile-info-value">
+							<span class="editable editable-click" id="username"></span>
+						</div>
+					</div>
+
+					<div class="profile-info-row">
+						<div class="profile-info-name"> 学号 </div>
+
+						<div class="profile-info-value">
+							<span class="editable editable-click" id="sno"></span>
+						</div>
+					</div>
+					<div class="profile-info-row">
+						<div class="profile-info-name"> 性别 </div>
+
+						<div class="profile-info-value">
+							<span class="editable editable-click" id="sex"></span>
+						</div>
+					</div>
+
+					<div class="profile-info-row">
+						<div class="profile-info-name"> 学院 </div>
+
+						<div class="profile-info-value">
+							<span class="editable editable-click" id="faculty"></span>
+						</div>
+					</div>
+				<div class="profile-info-row">
+						<div class="profile-info-name"> 专业 </div>
+
+						<div class="profile-info-value">
+							<span class="editable editable-click" id="specialty"></span>
+						</div>
+					<div class="profile-info-row">
+						<div class="profile-info-name"> 班级 </div>
+						<div class="profile-info-value">
+							<span class="editable editable-click" id="Class"></span>
+						</div>
+					</div>
+					<div class="profile-info-row">
+						<div class="profile-info-name"> 联系电话 </div>
+						<div class="profile-info-value">
+							<input type="text" maxlength="11"   class="editable" id="phone">
+						</div>
+					</div>
+					<div class="profile-info-row">
+						<div class="profile-info-name"> 公寓 </div>
+						<div class="profile-info-value">
+							<input type="text" class="editable" id="apartment">
+						</div>
+					</div>
+					</div>
+				</div>
+					<div >
+					    <br>
+						<button onclick="update()" type="button" class="am-btn am-btn-secondary am-btn-sm" >更新</button>
+					</div>
+				</div>
+		
+			</div>
+		</div>
+		<div id="mobileFlag" class="visible-xs-block"></div>
+		<script src="../assets/js/jquery3.3.1.js"></script>
+		<script src="../assets/js/amazeui.js"></script>
+		<script type="text/javascript">
+			$(function(){
+				if ($("#mobileFlag").is(":hidden")){
+					$("#page-content").css("padding","20px 200px");
+					$("#page-content").css("margin","30px 200px");
+				}
+				$.ajax({
+				     async : true ,
+				     type : "post",//传值方式
+				     url : '../getUser',//请求的地址
+				     data : { 
+				    	 "identity":'student'
+				     },
+				     //回调函数 返回的值
+				     success : function(data) {
+				    	$(".am-icon-user").append(data.studentName);
+				    	$("#username").append(data.studentName);
+				    	$("#sex").append(data.studentSex);
+				    	$("#sno").append(data.studentSno);
+				    	$("#faculty").append(data.studentClass.facultyName);
+				    	$("#specialty").append(data.studentClass.specialtyName);
+				    	$("#Class").append(data.studentClass.className);
+				    	$('.photo').attr('src',data.studentPhoto);
+				    	$("#phone").val(data.studentPhone);
+				    	$("#apartment").val(data.studentApartment);
+				     	}
+				     }); 
+			});
+		
+	 function update(){
+		 if(!(/^1(3|4|5|7|8)\d{9}$/.test($('#phone').val()))){
+			 alert("请输入正确的手机号");
+			 return ;
+		 }
+		 $.ajax({
+		     async : true ,
+		     type : "post",//传值方式
+		     url : 'updateMessage',//请求的地址
+		     data : { 
+		    	 "studentSno":$("#sno").text(),
+		 		 "apartment":$("#apartment").val(),
+		 		 "phone":$("#phone").val()
+		     },
+		     //回调函数 返回的值
+		     success : function(data) {
+		    		if(data>0)
+		    			alert("更新成功");
+		     	}
+		     }); 
+	 }
+		</script>
+	</body>
+
+</html>

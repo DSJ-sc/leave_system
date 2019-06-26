@@ -1,0 +1,247 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>专业管理</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="renderer" content="webkit">
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="icon" href="../assets/i/favicon.ico">
+<link rel="stylesheet" href="../assets/css/amazeui.min.css" />
+<link rel="stylesheet" href="../assets/css/admin.css">
+<link rel="stylesheet" href="../assets/css/app.css">
+<link rel="stylesheet" href="../assets/css/ace.min.css">
+<style type="text/css">
+	.specialtyInfo{
+		width:40%;
+		height:30%;
+		position:fixed;
+		left:30%;
+		top:30%;
+		background-color: DarkCyan;
+		text-align: center;
+		padding-top: 1%;
+		display: none;
+	}
+	.addSpecialty{
+		width:40%;
+		height:50%;
+		position:fixed;
+		left:30%;
+		top:30%;
+		background-color: DarkCyan;
+		text-align: center;
+		padding-top: 1%;
+		display: none;
+	}
+	.info{
+		width: 60%!important;
+		margin-left: 20%;
+		text-align: center;
+	}
+</style>
+	</head>
+
+	<body data-type="index" style="background-color: #E4E6E9;">
+
+
+		<header class="am-topbar am-topbar-inverse admin-header">
+			<div class="am-topbar-brand am-sans-serif">
+				<img  src="../assets/img/logo.png"  width="70px" height="71px"/>
+				哈尔滨信息工程学院考勤系统管理端
+			</div>
+
+
+			<button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span
+				 class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+
+			<div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+<ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">
+							
+					<li class="am-dropdown" data-am-dropdown data-am-dropdown-toggle>
+						<a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
+							<span class="am-icon-edit"></span> 学院管理 
+						</a>
+						<ul class="am-dropdown-content tpl-dropdown-content">
+							<li>
+								<a href="manageClass.html" class="tpl-dropdown-content-progress">
+									<span class="task">
+										<i class="am-icon-puzzle-piece"> </i>
+										<span class="desc">班级管理</span>
+									</span>
+								</a>
+							</li>
+
+							<li>
+								<a href="manageFaculty.html" class="tpl-dropdown-content-progress">
+									<span class="task">
+										<i class="am-icon-puzzle-piece"></i>
+										<span class="desc">学院管理</span>
+									</span>
+								</a>
+							</li>
+						</ul>
+					</li>
+					
+					<li class="am-dropdown" data-am-dropdown data-am-dropdown-toggle>
+						<a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
+							<span class="am-icon-edit"></span> 课程管理 
+						</a>
+						<ul class="am-dropdown-content tpl-dropdown-content">
+							<li>
+								<a href="manageCourse.html" class="tpl-dropdown-content-progress">
+									<span class="task">
+										<i class="am-icon-puzzle-piece"> </i>
+										<span class="desc">课程名管理</span>
+									</span>
+								</a>
+							</li>
+							<li>
+								<a href="manageSyllabus.html" class="tpl-dropdown-content-progress">
+									<span class="task">
+										<i class="am-icon-puzzle-piece"></i>
+										<span class="desc">课程表管理</span>
+									</span>
+								</a>
+							</li>
+
+						</ul>
+					</li>
+					<li class="am-dropdown" data-am-dropdown data-am-dropdown-toggle>
+						<a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
+							<span class="am-icon-edit"></span> 教师管理 
+						</a>
+						<ul class="am-dropdown-content tpl-dropdown-content">
+							<li>
+								<a href="manageTeacher.html" class="tpl-dropdown-content-progress">
+									<span class="task">
+										<i class="am-icon-puzzle-piece"></i>
+										<span class="desc">教师信息管理</span>
+									</span>
+								</a>
+							</li>
+
+						</ul>
+					</li>
+					<li class="am-dropdown">
+						<a class="am-dropdown-toggle tpl-header-list-link" href="adminCancellation">
+							<span class="am-icon-power-off"></span> 退出 
+						</a>
+					</li>
+			</ul>
+			</div>
+		</header>
+		<div class="tpl-page-container tpl-page-header-fixed">
+			<div id="page-content" class="page-content">
+			<div class="visible-lg-block">
+				<div class="tpl-portlet-components">
+					<div class="portlet-title center">
+							<input  class="specialtyName center" type="text" placeholder="请输入专业">
+							<input  class="select facultyName" type="text" placeholder="请输入学院">
+							<button class="am-btn-secondary am-btn-default" onclick="select()" type="button">查询</button>
+							<button class="am-btn-secondary am-btn-default" onclick="insert()" type="button">添加</button>
+					
+					</div>
+					<div class="tpl-block">
+
+						<div class="am-g">
+							<div class="am-u-sm-12">
+						
+								<table  
+									class="am-table am-table-striped am-table-hover table-main">
+									<thead>
+										<tr>
+											<th class=" center" >专业编号</th>
+											<th class=" center" >专业名称</th>
+											<th class=" center" >专业主任</th>
+											<th class=" center" >导员</th>
+											<th class=" center" >所属学院</th>
+											<th class=" center" >操作</th>
+										</tr>
+									</thead>
+								<tbody align="center">
+							
+								</tbody>
+								</table>
+							</div>
+						 </div>
+					</div>
+				</div>
+			</div>
+		 </div>
+		</div>
+		<div class="specialtyInfo">
+			<div style="width: 70%;margin:  0 auto;">
+			<form class="am-form am-form-horizontal">
+			  <div class="am-form-group">
+			    <label for="specialtyName" class="am-u-sm-3 am-form-label">专业名称</label>
+			    <div class="am-u-sm-9">
+			      <input type="text" disabled="disabled" class="info" id="specialtyName">
+			    </div>
+			  </div>
+			
+			  <div class="am-form-group">
+			    <label for="specialtyTeacher" class="am-u-sm-3  am-form-label">专业主任</label>
+			    <div class="am-u-sm-9">
+			      <select id="specialtyTeacher" data-am-selected="{searchBox: 1,maxHeight:100}"></select>
+			    </div>
+			  </div>
+			   <div class="am-form-group">
+                <label for="specialtyTeacher" class="am-u-sm-3  am-form-label">导员</label>
+                <div class="am-u-sm-9">
+                  <select id="guideTeacher" data-am-selected="{searchBox: 1,maxHeight:100}"></select>
+                </div>
+              </div>
+			</form>		
+			      <button type="button" onclick="updateSpecialty()" class="am-btn am-btn-success updateClass">修改</button>
+			      <button type="button" onclick="javascript:$('.specialtyInfo').hide()" class="am-btn am-btn-danger">退出</button>
+		</div>
+		</div>
+		
+		<div class="addSpecialty">
+			<div style="width: 70%;margin:  0 auto;">
+			<form class="am-form am-form-horizontal">
+			  <div class="am-form-group">
+			    <label for="specialtyId" class="am-u-sm-3 am-form-label">专业编号</label>
+			    <div class="am-u-sm-9">
+			      <input type="text"  class="info" id="specialtyId" placeholder="请输入专业编号">
+			    </div>
+			  </div>
+			 <div class="am-form-group">
+			    <label for="SpecialtyName" class="am-u-sm-3 am-form-label">专业名称</label>
+			    <div class="am-u-sm-9">
+			      <input type="text" class="info" id="SpecialtyName" placeholder="请输入专业名称"/>
+			    </div>
+			  </div>
+			  <div class="am-form-group">
+			    <label for="SpecialtyTeacher" class="am-u-sm-3 am-form-label">专业主任</label>
+			    <div class="am-u-sm-9">
+			      <select id="SpecialtyTeacher" data-am-selected="{searchBox: 1,maxHeight:100}"></select>
+			    </div>
+			  </div>
+			    <div class="am-form-group">
+                <label for="GuideTeacher" class="am-u-sm-3 am-form-label">导员</label>
+                <div class="am-u-sm-9">
+                  <select id="GuideTeacher" data-am-selected="{searchBox: 1,maxHeight:100}"></select>
+                </div>
+              </div>
+			   <div class="am-form-group">
+			    <label for="faculty" class="am-u-sm-3 am-form-label">所属学院</label>
+			    <div class="am-u-sm-9">
+			      <select id="faculty" data-am-selected="{searchBox: 1,maxHeight:100}"></select>
+			    </div>
+			  </div>
+			</form>
+		
+			      <button type="button" onclick="insertSpecialty()" class="am-btn am-btn-success addClass">添加</button>
+		      <button type="button" onclick="javascript:$('.addSpecialty').hide()" class="am-btn am-btn-danger">退出</button>
+		</div>
+		</div>
+		<script src="../assets/js/jquery3.3.1.js"></script>
+		<script src="../assets/js/amazeui.js"></script>	
+	   <script src="../assets/js/manageSpecialty.js"></script>    
+	</body>
+
+</html>

@@ -1,0 +1,447 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>添加调课请求</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="Cache-Control" content="no-siteapp" />
+		<link rel="icon" href="../assets/i/favicon.ico">
+		<meta name="apple-mobile-web-app-title" content="Amaze UI" />
+		<link rel="stylesheet" href="../assets/css/amazeui.min.css" />
+		<link rel="stylesheet" href="../assets/css/admin.css">
+		<link rel="stylesheet" href="../assets/css/app.css">
+		<link rel="stylesheet" href="../assets/css/ace.min.css">
+		<link rel="stylesheet" href="../assets/css/bootstrap.css">
+		<link rel="stylesheet" href="../assets/css/amazeui.datetimepicker.css" />
+		<link rel="stylesheet" href="../assets/css/teacher-add-leave.css">
+	</head>
+
+	<body>
+<header class="am-topbar am-topbar-inverse admin-header">
+            <div class="am-topbar-brand am-sans-serif">
+                <img src="../assets/img/logo.png" width="70px" height="71px" />
+                哈尔滨信息工程学院
+            </div>
+
+
+            <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span
+                 class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+
+            <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+
+                <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">
+                    <li class="am-dropdown" data-am-dropdown data-am-dropdown-toggle>
+                        <a class="am-dropdown-toggle tpl-header-list-link" href="teacherGetStudent.html">
+                            <span class="am-icon-user"></span> 点名 
+                        </a>
+                        <ul class="am-dropdown-content tpl-dropdown-content">
+                            <li>
+                                <a href="teacherGetStudent.html" class="tpl-dropdown-content-progress">
+                                    <span class="task">
+                                        <i class="am-icon-users"> </i>
+                                        <span class="desc">查看请假学生</span>
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+            <li class="am-dropdown" data-am-dropdown="" data-am-dropdown-toggle="">
+                        <a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
+                            <span class="am-icon-edit"></span> 调课 <span id="sunnum" class="am-badge tpl-badge-success am-round"></span>
+                        </a>
+                        <ul class="am-dropdown-content tpl-dropdown-content">
+                            <li>
+                                <a href="javascript:;" class="tpl-dropdown-content-progress">
+                                    <span class="task">
+                                        <i class="am-icon-plus-circle"> </i>
+                                        <span class="desc">添加调课请求</span>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="teacherLeaveInfo.html" class="tpl-dropdown-content-progress">
+                                    <span class="task">
+                                        <i class="am-icon-search-plus"></i>
+                                        <span class="desc">查看调课请求</span>
+                                        <span id="cheaknum" class="am-badge tpl-badge-warning am-round" style="margin-left: 80px;"></span>
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                
+                    <li class="am-dropdown" data-am-dropdown data-am-dropdown-toggle>
+                        <a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
+                            <span class="am-icon-user-secret"> </span>
+                        </a>
+                        <ul class="am-dropdown-content">
+                            <li><a class="tpl-dropdown-content-progress" href="../teacher/cancellation"><span class="am-icon-power-off"></span> 退出</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </header>
+		<div class="tpl-page-container tpl-page-header-fixed">
+		<div id="page-content" class="page-content">
+			<div class="tpl-portlet-components">
+				<div class="portlet-title">
+					<div class="caption font-green bold">
+						<span class="am-icon-code"></span> 添加调课请求
+					</div>
+				</div>
+				<div class="tpl-block">
+					<div class="am-g">
+
+						<div class="tpl-form-body tpl-form-line">
+							<div class="am-form tpl-form-line-form" >
+								        <div class="visible-lg-block">
+        <div class="am-form-group">
+                                    <label  class="am-u-sm-3 am-form-label">授课班级 <span class="tpl-form-line-small-title">Class</span></label>
+                                    <div class="am-u-sm-9">
+                                    <select class="className"  multiple data-am-selected="{searchBox: 1,btnWidth: '70%',maxHeight:200}">
+                                    </select>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label  class="am-u-sm-3 am-form-label">课程名 <span class="tpl-form-line-small-title">Course</span></label>
+                                    <div class="am-u-sm-9">
+                                        <select class="courseName"  data-am-selected="{searchBox: 1,btnWidth: '70%',maxHeight:200}">
+                                    </select>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                <label  class="am-u-sm-3 am-form-label">调课要求 <span class="tpl-form-line-small-title">Requirement</span></label>
+                                    <div class="am-u-sm-9 PrimaryWeek">
+                                        <p>
+                                                                                                                 (校历第<input type="text" maxlength="2"  class="primary oldWeek ColdWeek" >)周 <input type="text"   class="ColdDay oldDay" readonly>日
+                                            <select class="oldTime ColdTime" data-am-selected="{btnWidth: '10%', btnSize: 'sm'}" style="display: inline;">
+                                             <option value=""></option> <option value="1">1-2</option>
+                                              <option value="2">3-4</option>
+                                              <option value="3">5-6</option>
+                                              <option value="4">7-8</option>
+                                              <option value="5">9-10</option>
+                                            </select>节<input  class="primary oldClassRoom ColdClassRoom" maxlength="4" type="text">教室 
+                                        </p>
+                                        <p class="adjustment">调整至</p>
+                                        <p>
+                                                                                                            (校历第<input type="text" maxlength="2"  class="primary newWeek CnewWeek" >)周 <input type="text"   class="newDay CnewDay" readonly>日
+                                            <select class="newTime CnewTime" data-am-selected="{btnWidth: '10%', btnSize: 'sm'}" style="display: inline;" >
+                                             <option value=""></option> <option value="1">1-2</option>
+                                              <option value="2">3-4</option>
+                                              <option value="3">5-6</option>
+                                              <option value="4">7-8</option>
+                                              <option value="5">9-10</option>
+                                            </select>节<input class="primary newClassRoom" maxlength="4" type="text">教室  
+                                        </p>
+                                        <p class="adjustment showWindowOne"><a href="javascript:openWindowOne();">展开</a></p>
+                                        <div class="hideWindowOne">
+                                        <hr class="hr">
+                                        <p>
+                                                                                                                 (校历第<input type="text" maxlength="2"  class="primary oldWeek ColdWeek" >)周 <input type="text"   class="ColdDay oldDay" readonly>日
+                                            <select class="oldTime ColdTime" data-am-selected="{btnWidth: '10%', btnSize: 'sm'}" style="display: inline;">
+                                             <option value=""></option> <option value="1">1-2</option>
+                                              <option value="2">3-4</option>
+                                              <option value="3">5-6</option>
+                                              <option value="4">7-8</option>
+                                              <option value="5">9-10</option>
+                                            </select>节<input  class="primary oldClassRoom ColdClassRoom" maxlength="4" type="text">教室 
+                                        </p>
+                                        <p class="adjustment">调整至</p>
+                                        <p>
+                                                                                                            (校历第<input type="text" maxlength="2"  class="primary newWeek CnewWeek" >)周 <input type="text"   class="newDay CnewDay" readonly>日
+                                            <select class="newTime CnewTime" data-am-selected="{btnWidth: '10%', btnSize: 'sm'}" style="display: inline;" >
+                                             <option value=""></option> <option value="1">1-2</option>
+                                              <option value="2">3-4</option>
+                                              <option value="3">5-6</option>
+                                              <option value="4">7-8</option>
+                                              <option value="5">9-10</option>
+                                            </select>节<input class="primary newClassRoom" maxlength="4" type="text">教室  
+                                        </p>
+                                        <p class="adjustment showWindowTwo"><a href="javascript:openWindowTwo();">展开 </a><a href="javascript:closeWindowOne();"> 关闭</a></p>
+                                        <div class="hideWindowTwo">
+                                                <hr class="hr">
+                                        <p>
+                                                                                                                 (校历第<input type="text" maxlength="2"  class="primary oldWeek ColdWeek" >)周 <input type="text"   class="ColdDay oldDay" readonly>日
+                                            <select class="oldTime ColdTime" data-am-selected="{btnWidth: '10%', btnSize: 'sm'}" style="display: inline;">
+                                             <option value=""></option> <option value="1">1-2</option>
+                                              <option value="2">3-4</option>
+                                              <option value="3">5-6</option>
+                                              <option value="4">7-8</option>
+                                              <option value="5">9-10</option>
+                                            </select>节<input  class="primary oldClassRoom ColdClassRoom" maxlength="4" type="text">教室 
+                                        </p>
+                                        <p class="adjustment">调整至</p>
+                                        <p>
+                                                                                                            (校历第<input type="text" maxlength="2"  class="primary newWeek CnewWeek" >)周 <input type="text"   class="newDay CnewDay" readonly>日
+                                            <select class="newTime CnewTime" data-am-selected="{btnWidth: '10%', btnSize: 'sm'}" style="display: inline;" >
+                                             <option value=""></option> <option value="1">1-2</option>
+                                              <option value="2">3-4</option>
+                                              <option value="3">5-6</option>
+                                              <option value="4">7-8</option>
+                                              <option value="5">9-10</option>
+                                            </select>节<input class="primary newClassRoom" maxlength="4" type="text">教室  
+                                        </p>
+                                            <hr class="hr">
+                                        <p>
+                                                                                                                 (校历第<input type="text" maxlength="2"  class="primary oldWeek ColdWeek" >)周 <input type="text"   class="ColdDay oldDay" readonly>日
+                                            <select class="oldTime ColdTime" data-am-selected="{btnWidth: '10%', btnSize: 'sm'}" style="display: inline;">
+                                             <option value=""></option> <option value="1">1-2</option>
+                                              <option value="2">3-4</option>
+                                              <option value="3">5-6</option>
+                                              <option value="4">7-8</option>
+                                              <option value="5">9-10</option>
+                                            </select>节<input  class="primary oldClassRoom ColdClassRoom" maxlength="4" type="text">教室 
+                                        </p>
+                                        <p class="adjustment">调整至</p>
+                                        <p>
+                                                                                                            (校历第<input type="text" maxlength="2"  class="primary newWeek CnewWeek" >)周 <input type="text"   class="newDay CnewDay" readonly>日
+                                            <select class="newTime CnewTime" data-am-selected="{btnWidth: '10%', btnSize: 'sm'}" style="display: inline;" >
+                                             <option value=""></option> <option value="1">1-2</option>
+                                              <option value="2">3-4</option>
+                                              <option value="3">5-6</option>
+                                              <option value="4">7-8</option>
+                                              <option value="5">9-10</option>
+                                            </select>节<input class="primary newClassRoom" maxlength="4" type="text">教室  
+                                        </p>
+                                            <p class="adjustment hideWindow"><a href="javascript:closeWindowTwo();">关闭</a></p>
+                                            
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label for="leaveType" class="am-u-sm-3 am-form-label">调课类型 <span class="tpl-form-line-small-title">Type</span></label>
+                                    <div class="am-u-sm-9">
+                                        <select class="leaveType" name="leaveType" data-am-selected>
+                                            <option value="调课">调课</option>
+                                            <option value="代课">代课</option>
+                                            <option value="停课">停课</option>
+                                            <option value="补课">补课</option>
+                                            
+                                        </select>
+                                    </div>
+                                </div>
+                            
+                                <div class="am-form-group replace">
+                                    <label  class="am-u-sm-3 am-form-label">代课老师 <span class="tpl-form-line-small-title">Teacher</span></label>
+                                    <div class="am-u-sm-9">
+                                        <input type="text" class="replaceTeacher input" placeholder="请输入代课老师">
+                                    </div>
+                                </div>
+                                    <div class="am-form-group">
+                                    <label   class="am-u-sm-3 am-form-label">调课理由 <span class="tpl-form-line-small-title">Reason</span></label>
+                                    <div class="am-u-sm-9">
+                                        <select class="leaveReason" data-am-selected>
+                                            <option value="因私">因私</option>
+                                            <option value="因公">因公</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label    class="am-u-sm-3 am-form-label">具体理由 <span class="tpl-form-line-small-title">Reason</span></label>
+                                    <div class="am-u-sm-9">
+                                        <textarea class="input specificReason"  rows="5" id="user-intro" placeholder="请输入理由"></textarea>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <div class="am-u-sm-9 am-u-sm-push-3">
+                                        <button type="button" class="submit am-btn  am-btn-primary tpl-btn-bg-color-success ">提交</button>
+                                    </div>
+                                </div>
+          
+                                 </div>
+                                 
+                                 
+                       <div class="visible-xs-block">
+                         <div class="am-form-group">
+                                    <label  class="am-u-sm-3 am-form-label">班级</label>
+                                    <div class="am-u-sm-9">
+                                    <select class="className"  multiple data-am-selected="{searchBox: 1,btnWidth: '100%',maxHeight:200}">
+                                    </select>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label  class="am-u-sm-3 am-form-label">课程</label>
+                                    <div class="am-u-sm-9">
+                                        <select class="courseName"  data-am-selected="{searchBox: 1,btnWidth: '100%',maxHeight:200}">
+                                    </select>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                <label  class="am-u-sm-3 am-form-label">要求</label>
+                                    <div class="am-u-sm-9 PrimaryWeek">
+                                      <span>
+                                                                                                                  (校历第<input type="text" maxlength="2"  class="Primary oldWeek" >)周 
+                                            <input type="text" style="text-align: center;"   class="oldDay" readonly>
+                                            <select class="oldTime" data-am-selected="{btnWidth: '40%', btnSize: 'sm'}" style="display: inline;">
+                                             <option value=""></option> <option value="1">1-2</option>
+                                              <option value="2">3-4</option>
+                                              <option value="3">5-6</option>
+                                              <option value="4">7-8</option>
+                                              <option value="5">9-10</option>
+                                            </select>节
+                                            <input  class="Primary oldClassRoom" maxlength="4" type="text">教室 
+                                        </span>
+                                        <span class="adjustment">调整至</span>
+                                        <span>
+                                                                                                                 (校历第<input type="text" maxlength="2"  class="Primary newWeek" >)周 
+                                            <input type="text" style="text-align: center;"   class="newDay" readonly>
+                                            <select class="newTime" data-am-selected="{btnWidth: '40%', btnSize: 'sm'}" style="display: inline;" >
+                                             <option value=""></option> <option value="1">1-2</option>
+                                              <option value="2">3-4</option>
+                                              <option value="3">5-6</option>
+                                              <option value="4">7-8</option>
+                                              <option value="5">9-10</option>
+                                            </select>节<input class="Primary newClassRoom" maxlength="4" type="text">教室  
+                                        </span>
+                                        <span class="adjustment showWindowOne"><a href="javascript:openWindowOne();">展开</a></span>
+                                        <div class="hideWindowOne">
+                                        <hr >
+                                         <span>
+                                                                                                                  (校历第<input type="text" maxlength="2"  class="Primary oldWeek" >)周 
+                                            <input type="text" style="text-align: center;"   class="oldDay" readonly>
+                                            <select class="oldTime" data-am-selected="{btnWidth: '40%', btnSize: 'sm'}" style="display: inline;">
+                                             <option value=""></option> <option value="1">1-2</option>
+                                              <option value="2">3-4</option>
+                                              <option value="3">5-6</option>
+                                              <option value="4">7-8</option>
+                                              <option value="5">9-10</option>
+                                            </select>节
+                                            <input  class="Primary oldClassRoom" maxlength="4" type="text">教室 
+                                        </span>
+                                        <span class="adjustment">调整至</span>
+                                        <span>
+                                                                                                                 (校历第<input type="text" maxlength="2"  class="Primary newWeek" >)周 
+                                            <input type="text" style="text-align: center;"   class="newDay" readonly>
+                                            <select class="newTime" data-am-selected="{btnWidth: '40%', btnSize: 'sm'}" style="display: inline;" >
+                                             <option value=""></option> <option value="1">1-2</option>
+                                              <option value="2">3-4</option>
+                                              <option value="3">5-6</option>
+                                              <option value="4">7-8</option>
+                                              <option value="5">9-10</option>
+                                            </select>节<input class="Primary newClassRoom" maxlength="4" type="text">教室  
+                                        </span>
+                                        <span class="adjustment showWindowTwo">
+                                        <a href="javascript:openWindowTwo();">展开 </a><a href="javascript:closeWindowOne();"> 关闭</a></span>
+                                        <div class="hideWindowTwo">
+                                                <hr>
+                                         <span>
+                                                                                                                  (校历第<input type="text" maxlength="2"  class="Primary oldWeek" >)周 
+                                            <input type="text" style="text-align: center;"   class="oldDay" readonly>
+                                            <select class="oldTime" data-am-selected="{btnWidth: '40%', btnSize: 'sm'}" style="display: inline;">
+                                             <option value=""></option> <option value="1">1-2</option>
+                                              <option value="2">3-4</option>
+                                              <option value="3">5-6</option>
+                                              <option value="4">7-8</option>
+                                              <option value="5">9-10</option>
+                                            </select>节
+                                            <input  class="Primary oldClassRoom" maxlength="4" type="text">教室 
+                                        </span>
+                                        <span class="adjustment">调整至</span>
+                                        <span>
+                                                                                                                 (校历第<input type="text" maxlength="2"  class="Primary newWeek" >)周 
+                                            <input type="text" style="text-align: center;"   class="newDay" readonly>
+                                            <select class="newTime" data-am-selected="{btnWidth: '40%', btnSize: 'sm'}" style="display: inline;" >
+                                             <option value=""></option> <option value="1">1-2</option>
+                                              <option value="2">3-4</option>
+                                              <option value="3">5-6</option>
+                                              <option value="4">7-8</option>
+                                              <option value="5">9-10</option>
+                                            </select>节<input class="Primary newClassRoom" maxlength="4" type="text">教室  
+                                        </span>
+                                            <hr >
+                                        <span>
+                                                                                                                  (校历第<input type="text" maxlength="2"  class="Primary oldWeek" >)周 
+                                            <input type="text" style="text-align: center;"   class="oldDay" readonly>
+                                            <select class="oldTime" data-am-selected="{btnWidth: '40%', btnSize: 'sm'}" style="display: inline;">
+                                             <option value=""></option> <option value="1">1-2</option>
+                                              <option value="2">3-4</option>
+                                              <option value="3">5-6</option>
+                                              <option value="4">7-8</option>
+                                              <option value="5">9-10</option>
+                                            </select>节
+                                            <input  class="Primary oldClassRoom" maxlength="4" type="text">教室 
+                                        </span>
+                                        <span class="adjustment">调整至</span>
+                                        <span>
+                                                                                                                 (校历第<input type="text" maxlength="2"  class="Primary newWeek" >)周 
+                                            <input type="text" style="text-align: center;"   class="newDay" readonly>
+                                            <select class="newTime" data-am-selected="{btnWidth: '40%', btnSize: 'sm'}" style="display: inline;" >
+                                             <option value=""></option> <option value="1">1-2</option>
+                                              <option value="2">3-4</option>
+                                              <option value="3">5-6</option>
+                                              <option value="4">7-8</option>
+                                              <option value="5">9-10</option>
+                                            </select>节<input class="Primary newClassRoom" maxlength="4" type="text">教室  
+                                        </span>
+                                            <span class="adjustment hideWindow"><a href="javascript:closeWindowTwo();">关闭</a></span>
+                                            
+                                               
+                                    </div>
+                                </div>
+                                </div>
+                                </div>
+                                
+                                <div class="am-form-group">
+                                    <label  class="am-u-sm-3 am-form-label">类型 </label>
+                                    <div class="am-u-sm-9">
+                                        <select class="leaveType" name="leaveType" data-am-selected>
+                                            <option value="调课">调课</option>
+                                            <option value="代课">代课</option>
+                                            <option value="停课">停课</option>
+                                            <option value="补课">补课</option>
+                                            
+                                        </select>
+                                    </div>
+                                </div>
+                            
+                                <div class="am-form-group replace">
+                                    <label  class="am-u-sm-3 am-form-label">代课</label>
+                                    <div class="am-u-sm-9">
+                                        <input type="text"  class="replaceTeacher" placeholder="请输入代课老师">
+                                    </div>
+                                </div>
+                                    <div class="am-form-group">
+                                    <label  class="am-u-sm-3 am-form-label">理由</label>
+                                    <div class="am-u-sm-9">
+                                        <select class="leaveReason" data-am-selected>
+                                            <option value="因私">因私</option>
+                                            <option value="因公">因公</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label  for="leaveReason"  class="am-u-sm-3 am-form-label">理由 </label>
+                                    <div class="am-u-sm-9">
+                                        <textarea class="specificReason"  rows="5" placeholder="请输入具体理由"></textarea>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <div class="am-u-sm-9 am-u-sm-push-3">
+                                        <button type="button" class="submit am-btn  am-btn-primary tpl-btn-bg-color-success ">提交</button>
+                                    </div>
+                                </div>
+          
+        </div> 
+                                 
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+
+		<script src="../assets/js/jquery3.3.1.js"></script>
+		<script src="../assets/js/amazeui.js"></script>
+		<script src="../assets/js/iscroll.js"></script>
+		<script src="../assets/js/echarts.min.js"></script>
+		<script src="../assets/js/teacheraddleave.js"></script>
+		<script src="../assets/js/showmessage.js"></script>
+		<script src="../assets/js/amazeui.datetimepicker.js"></script>
+		<script src="../assets/js/date.js"></script>
+	</body>
+</html>

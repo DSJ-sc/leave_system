@@ -1,0 +1,21 @@
+@charset "UTF-8";
+	#main{
+		margin: 0 auto;
+	}
+	.selects{
+		margin-left: 20%;
+	}
+	.form-group{
+		margin-right: 5px;
+	}
+	.form-control{
+		text-align: center;
+	}
+	#yearTimeInput{
+		display: none;
+	}
+	#echartsShow{
+		width: 90%;
+		height:400px;
+		margin: 0 auto;
+	}

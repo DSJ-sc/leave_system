@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.greathiit.mapper.StudentMapper">
+<cache eviction="FIFO" flushInterval="60000" size="512" readOnly="true" />
+    <!-- 登陆 -->
+	<select id="login" parameterType="Map" resultMap="entityMapper.Student">
+	   select * from tb_student,tb_class,tb_specialty,tb_faculty where specialty_id = class_specialty and faculty = faculty_id and class_name=student_class and student_sno=#{studentSno} and right(student_id,6)=#{studentId}
+	</select>
+	<!-- 查询班级 -->
+	<select id="queryClass" parameterType="String" resultType="studentClass">
+		select * from tb_class where class_name = #{class}
+	</select>
+	<!-- 查询请假信息 -->
+	<select id="queryLeave" parameterType="studentLeaveInfo" resultMap="entityMapper.studentLeave">
+	  select <include refid="entityMapper.studentLeave"></include> FROM tb_student_leave l 
+	       <where>
+	          <if test="studentLeaveNum!=null and studentLeaveNum!=''">
+	               l.student_leave_num like '${studentLeaveNum}_'
+	          </if>
+	          <if test="leaveApprovalOne =='1'">
+	              and (l.is_one=1 and l.is_two=1 and l.is_three=1)
+	          </if>
+	           <if test="leaveApprovalOne =='0'">
+                 and (l.is_one=0 or l.is_two=0 or l.is_three=0)
+              </if>
+              <if test="studentSno!=null and studentSno!=''">
+                 and l_student_sno=#{studentSno} 
+              </if>
+	       </where>     
+	</select>
+	<!-- 查询请假信息 -->
+    <select id="queryWaitLeave" parameterType="studentLeaveInfo" resultMap="entityMapper.studentLeave">
+      select <include refid="entityMapper.studentLeave"></include> FROM tb_student_leave_wait l 
+           <where>
+              <if test="studentLeaveNum!=null and studentLeaveNum!=''">
+                   l.student_leave_num like '${studentLeaveNum}_'
+              </if>
+              <if test="leaveApprovalOne =='1'">
+                  and (l.is_one=1 and l.is_two=1 and l.is_three=1)
+              </if>
+               <if test="leaveApprovalOne =='0'">
+                 and (l.is_one=0 or l.is_two=0 or l.is_three=0)
+              </if>
+              <if test="studentSno!=null and studentSno!=''">
+                 and l_student_sno=#{studentSno} 
+              </if>
+           </where>     
+    </select>
+	 <update id="updateMessage"  parameterType="java.util.Map">
+        update tb_student set  student_apartment = #{apartment},
+        					   student_phone = #{phone}  
+          where student_sno = #{studentSno}  
+    </update>
+	<!-- 添加请假信息 -->
+	<insert id="addLeave" parameterType="studentLeaveInfo" useGeneratedKeys="true" keyProperty="student_leave_id" >
+	insert into tb_student_leave_wait(l_student_sno,student_leave_num,l_class,l_name,l_specialty,l_faculty,leave_type,leave_apply_time,
+	                          leave_reason,leave_prove,leave_start_time,leave_end_time,
+	                          parent_phone,leave_agreement)
+	                   values(#{studentSno},#{studentLeaveNum},#{className},#{studentName},#{specialty},#{faculty},
+	                          #{leaveType},#{leaveApplyTime},
+	                          #{leaveReason}, #{leaveProve},#{leaveStartTime},#{leaveEndTime},
+	                          #{parentPhone}, #{leaveAgreement})	   
+	</insert>
+</mapper>
